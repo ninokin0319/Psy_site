@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="3本の杭の間で円盤を動かし、目標状態までの計画と問題解決過程を記録します。">
+    <meta property="og:title" content="Tower of Hanoi | 心理学実験演習サイト"><meta property="og:description" content="円盤の移動手数と問題解決時間を記録する授業用課題です。"><meta property="og:type" content="website">
+    <title>Tower of Hanoi | 心理学実験演習サイト</title>
+    <link rel="stylesheet" href="https://unpkg.com/jspsych@8.3.0/css/jspsych.css"><link rel="stylesheet" href="../../assets/site.css"><link rel="stylesheet" href="../../assets/lesson.css"><link rel="stylesheet" href="experiment.css">
+  </head>
+  <body class="lesson-page">
+    <header class="site-header compact"><div class="site-header__inner"><a class="brand" href="../../"><span class="brand-mark" aria-hidden="true">Ψ</span><span>心理学実験演習サイト</span></a><nav class="site-nav lesson-nav" aria-label="課題ページナビゲーション"><a href="#overview">概要</a><a href="#theory">詳しい解説</a><a href="#setup">設定</a><a href="../../">← 実験一覧</a></nav></div></header>
+    <main>
+      <section class="lesson-hero" id="overview"><div><p class="eyebrow">PROBLEM SOLVING TASK</p><h1>Tower of Hanoi</h1><p class="lead">左の杭に積まれた円盤を、規則を守って目標の杭へ移します。目標を小さな下位目標に分け、先の移動を計画する過程を体験します。</p><div class="lesson-hero-actions"><a class="button primary" href="#setup">設定へ進む</a><a class="text-link" href="#theory">背景と方法を読む ↓</a></div></div><dl class="lesson-meta"><div><dt>測定指標</dt><dd>移動手数・不正移動・時間</dd></div><div><dt>所要時間</dt><dd>約2–10分</dd></div><div><dt>操作</dt><dd>マウス／タッチ</dd></div></dl></section>
+
+      <details class="explanation-panel" id="theory"><summary><span><strong>背景・仮説・実験計画を読む</strong><small>問題空間、下位目標、練習による方略変化を確認できます。</small></span></summary><div class="explanation-content">
+        <section class="learning-grid" aria-label="背景と方法">
+          <article><p class="eyebrow">BACKGROUND</p><h2>背景</h2><p>Tower of Hanoiは、初期状態、目標状態、許される操作が明確な「良定義問題」です。解決には、最大の円盤を目標へ動かすために、その上の小さな円盤をいったん別の杭へ移すという下位目標の形成が必要になります。</p></article>
+          <article><p class="eyebrow">HYPOTHESIS</p><h2>仮説</h2><p>円盤数が増えると必要な最少手数が急増し、先を見越した計画がより重要になります。同じ課題を繰り返すと、目標に直接近づかない移動も下位目標に必要だと学習し、余分な移動が減る可能性があります。</p></article>
+          <article><p class="eyebrow">DESIGN &amp; PROCEDURE</p><h2>課題計画と手続き</h2><p>一度に動かせるのは各杭の最上部の円盤1枚だけで、大きな円盤を小さな円盤の上には置けません。左の杭から指定した目標の杭へ全円盤を移します。2枚の練習後、設定した3〜5枚の本課題を1回行います。</p></article>
+          <article><p class="eyebrow">MEASURES</p><h2>指標と解釈</h2><p>合法な移動数、不正移動の試み、再開始回数、課題時間を記録します。3本の杭でn枚を移す最少手数は <strong>2<sup>n</sup> − 1</strong> です。完了時には実移動数と最少手数の差も示します。</p></article>
+        </section>
+        <aside class="method-notes"><div><p class="eyebrow">MEASUREMENT NOTES</p><h2>測定上の注意</h2></div><ul><li>最少手数との差は問題解決過程の記述値です。単独で一般的な計画能力や実行機能を診断する値ではありません。</li><li>事前経験、数学的知識、操作への慣れ、言語教示の理解が成績に影響します。</li><li>再開始前の移動もCSVに残し、画面の集計は最後に取り組んだ回について示します。</li></ul></aside>
+      </div></details>
+      <details class="references-panel"><summary>根拠資料と引用文献</summary><ol><li>Anzai, Y., &amp; Simon, H. A. (1979). <a href="https://doi.org/10.1037/0033-295X.86.2.124">The theory of learning by doing</a>. <cite>Psychological Review, 86</cite>, 124–140.</li><li>Klahr, D., &amp; Robinson, M. (1981). <a href="https://doi.org/10.1016/0010-0277(81)90006-2">Formal assessment of problem-solving and planning processes in preschool children</a>. <cite>Cognition, 9</cite>, 113–126.</li></ol></details>
+
+      <section class="setup-section" id="setup" aria-labelledby="setup-title"><div class="setup-heading"><div><p class="eyebrow">SETUP</p><h2 id="setup-title">課題条件を設定する</h2></div><p>円盤が1枚増えると、最少手数は約2倍になります。</p></div><div class="setup-layout">
+        <form id="config-form" class="config-panel" novalidate><fieldset><legend>プリセット</legend><div class="preset-group"><label><input type="radio" name="preset" value="demo" checked><span><strong>短時間デモ</strong><small>3枚・最少7手</small></span></label><label><input type="radio" name="preset" value="standard"><span><strong>標準課題</strong><small>4枚・最少15手</small></span></label><label><input type="radio" name="preset" value="advanced"><span><strong>発展課題</strong><small>5枚・最少31手</small></span></label></div></fieldset>
+          <div class="field-grid"><label>円盤数<select id="disk-count" name="diskCount"><option value="3">3枚</option><option value="4">4枚</option><option value="5">5枚</option></select></label><label>目標の杭<select id="goal-peg" name="goalPeg"><option value="2">右</option><option value="1">中央</option></select></label><label>制限時間<span><input id="time-limit" name="timeLimitMinutes" type="number" value="3" min="1" max="20" step="1"> 分</span></label></div>
+          <div id="config-errors" class="form-errors" role="alert" aria-live="polite"></div><div class="config-actions"><button type="button" id="reset-config" class="button secondary">初期値に戻す</button><button type="submit" id="start-experiment" class="button primary">操作練習へ進む</button></div>
+        </form>
+        <aside class="preview-panel" aria-labelledby="preview-title"><div class="preview-header"><div><p class="eyebrow">TASK PREVIEW</p><h3 id="preview-title">初期状態と目標</h3></div><span id="minimum-badge" class="trial-badge">最少7手</span></div><div id="tower-preview" class="tower-preview" aria-label="Tower of Hanoiのプレビュー"></div><dl class="preview-summary"><div><dt>円盤数</dt><dd id="disk-summary">3枚</dd></div><div><dt>目標</dt><dd id="goal-summary">右の杭</dd></div></dl><p class="preview-note">杭を2回クリックして、移動元と移動先を指定します。</p></aside>
+      </div></section>
+      <section id="experiment-runner" class="experiment-runner" hidden aria-label="課題実行画面"><div id="jspsych-target"></div></section>
+      <section id="results" class="results-section" hidden aria-labelledby="results-title"><div class="results-heading"><div><p class="eyebrow">RESULTS</p><h2 id="results-title">課題結果</h2><p id="completion-message">最後の取り組みについて、最少手数と比較します。</p></div><div class="results-actions"><button type="button" id="download-csv" class="button primary">CSVを保存</button><button type="button" id="retry-same" class="button secondary">同じ設定でもう一度</button><button type="button" id="change-settings" class="button quiet">設定を変更</button></div></div>
+        <div class="metric-grid"><article class="metric-card"><span>合法な移動</span><strong id="legal-moves">—</strong><small id="minimum-detail">—</small></article><article class="metric-card"><span>余分な移動</span><strong id="excess-moves">—</strong><small>実移動 − 最少手数</small></article><article class="metric-card"><span>所要時間</span><strong id="elapsed-time">—</strong><small id="attempt-detail">—</small></article></div>
+        <div class="results-grid"><div class="result-card"><h3>最後の取り組み</h3><div class="table-scroll"><table><tbody id="summary-body"></tbody></table></div></div><aside class="result-card"><h3>結果を考える</h3><ul class="result-checks"><li>最大の円盤を動かす前に、どの状態を下位目標にしたでしょうか。</li><li>目標から一時的に遠ざかる移動を選べたでしょうか。</li><li>再度行うと、手数や停止時間はどう変化するでしょうか。</li></ul></aside></div>
+        <details class="data-dictionary"><summary>CSVの主な列</summary><dl><div><dt>run_index / attempt_index</dt><dd>再開始で区切られた取り組み番号と、その中での移動試行番号。</dd></div><div><dt>source_peg / target_peg / disk</dt><dd>移動元、移動先（0=左、1=中央、2=右）と円盤番号。</dd></div><div><dt>legal_move / error_reason</dt><dd>合法な移動か。不正移動では理由も記録。</dd></div><div><dt>state_after</dt><dd>移動試行後の3本の杭の状態。</dd></div></dl></details>
+      </section>
+    </main>
+    <footer class="site-footer"><div class="site-footer__inner"><p><strong>心理学実験演習サイト</strong><br><span>教育用デモ — 個人情報や課題データは送信されません。</span></p><nav class="footer-nav" aria-label="フッターナビゲーション"><a href="#overview">概要</a><a href="#setup">設定</a><a href="../../">実験一覧</a></nav></div></footer>
+    <script src="https://unpkg.com/jspsych@8.3.0"></script><script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.2.0"></script><script src="https://unpkg.com/@jspsych/plugin-browser-check@2.1.0"></script><script type="module" src="experiment.js?v=1.0.0"></script>
+  </body>
+</html>

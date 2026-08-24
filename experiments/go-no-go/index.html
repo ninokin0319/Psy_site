@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Go刺激には反応し、No-go刺激には反応を控える課題で、反応の実行と抑制を体験します。">
+    <meta property="og:title" content="Go/No-go課題 | 心理学実験演習サイト">
+    <meta property="og:description" content="Go比率や提示時間を変え、誤反応率・見逃し率・反応時間を調べる授業用ブラウザ課題です。">
+    <meta property="og:type" content="website">
+    <title>Go/No-go課題 | 心理学実験演習サイト</title>
+    <link rel="stylesheet" href="https://unpkg.com/jspsych@8.3.0/css/jspsych.css">
+    <link rel="stylesheet" href="../../assets/site.css">
+    <link rel="stylesheet" href="../../assets/lesson.css">
+    <link rel="stylesheet" href="experiment.css">
+  </head>
+  <body class="lesson-page">
+    <header class="site-header compact"><div class="site-header__inner">
+      <a class="brand" href="../../"><span class="brand-mark" aria-hidden="true">Ψ</span><span>心理学実験演習サイト</span></a>
+      <nav class="site-nav lesson-nav" aria-label="実験ページナビゲーション"><a href="#overview">概要</a><a href="#theory">詳しい解説</a><a href="#setup">設定</a><a href="../../">← 実験一覧</a></nav>
+    </div></header>
+
+    <main>
+      <section class="lesson-hero" id="overview">
+        <div><p class="eyebrow">EXPERIMENT</p><h1>Go/No-go課題</h1>
+          <p class="lead">円が出たらSpaceキーを押し、四角が出たら何も押しません。頻繁に行う反応を、まれな合図に合わせて控えるときの正確さと速さを測ります。</p>
+          <div class="lesson-hero-actions"><a class="button primary" href="#setup">設定へ進む</a><a class="text-link" href="#theory">背景と方法を読む ↓</a></div>
+        </div>
+        <dl class="lesson-meta"><div><dt>測定指標</dt><dd>誤反応・見逃し・反応時間</dd></div><div><dt>所要時間</dt><dd>約2–8分</dd></div><div><dt>推奨環境</dt><dd>キーボード付きPC</dd></div></dl>
+      </section>
+
+      <details class="explanation-panel" id="theory">
+        <summary><span><strong>背景・仮説・実験計画を読む</strong><small>反応の実行と抑制、Go比率が成績に与える影響を確認できます。</small></span></summary>
+        <div class="explanation-content">
+          <section class="learning-grid" aria-label="背景と方法">
+            <article><p class="eyebrow">BACKGROUND</p><h2>背景</h2><p>Go/No-go課題では、Go刺激に対して決められた反応を行い、No-go刺激に対してその反応を行わないことが求められます。Go刺激が多いと反応を繰り返す傾向が形成され、まれなNo-go刺激で反応を控える必要が生じます。</p></article>
+            <article><p class="eyebrow">HYPOTHESIS</p><h2>仮説</h2><p>Go刺激の割合を高くすると、Go反応が速くなる一方、No-go試行で誤って押す割合が増える可能性があります。ただし、参加者が正確さを優先するか速さを優先するかによって結果は変わります。</p></article>
+            <article><p class="eyebrow">DESIGN &amp; PROCEDURE</p><h2>実験計画と手続き</h2><p>各試行で円または四角を提示します。Go図形にはSpaceキーを1回押し、No-go図形には反応しません。設定したGo比率から各条件の試行数を先に確定し、その後に提示順だけを無作為化します。練習では正誤、本試行では正誤を表示しません。</p></article>
+            <article><p class="eyebrow">MEASURES</p><h2>指標と解釈</h2><p>No-go試行で押した反応を<strong>誤反応（commission error）</strong>、Go試行で押さなかった反応を<strong>見逃し（omission error）</strong>として集計します。正しく押したGo試行について、刺激描画後から最初のSpace反応までの時間も求めます。</p></article>
+          </section>
+          <aside class="method-notes"><div><p class="eyebrow">MEASUREMENT NOTES</p><h2>測定上の注意</h2></div><ul>
+            <li>誤反応率は、単独で個人の「抑制能力」や衝動性を診断する値ではありません。刺激の識別、持続的注意、Go比率、提示間隔、速度と正確さの方略も影響します。</li>
+            <li>ブラウザ、ディスプレイ、キーボードによる遅延を厳密に校正していません。授業内の条件比較に用い、研究用測定には別途妥当性検証が必要です。</li>
+            <li>刺激は描画が反映されるよう2回の画面更新を待ってから時間計測を始め、キーの押しっぱなしによる反復入力は記録しません。</li>
+          </ul></aside>
+        </div>
+      </details>
+
+      <details class="references-panel"><summary>根拠資料と引用文献</summary><ol>
+        <li>Gomez, P., Ratcliff, R., &amp; Perea, M. (2007). <a href="https://doi.org/10.1037/0096-3445.136.3.389">A model of the go/no-go task</a>. <cite>Journal of Experimental Psychology: General, 136</cite>, 389–413.</li>
+        <li>Helton, W. S., &amp; Russell, P. N. (2016). <a href="https://doi.org/10.1016/j.concog.2016.06.004">Go-stimuli proportion influences response strategy in a sustained attention to response task</a>. <cite>Consciousness and Cognition, 43</cite>, 177–186.</li>
+        <li>Kubo-Kawai, N., &amp; Kawai, N. (2021). <a href="https://doi.org/10.1111/sjop.12679">Do shorter inter-stimulus intervals in the go/no-go task enable better assessment of response inhibition?</a> <cite>Scandinavian Journal of Psychology, 62</cite>, 118–126.</li>
+      </ol></details>
+
+      <section class="setup-section" id="setup" aria-labelledby="setup-title">
+        <div class="setup-heading"><div><p class="eyebrow">SETUP</p><h2 id="setup-title">実験条件を設定する</h2></div><p>Go比率と時間条件を変え、反応方略と成績の関係を比較できます。</p></div>
+        <div class="setup-layout">
+          <form id="config-form" class="config-panel" novalidate>
+            <fieldset><legend>プリセット</legend><div class="preset-group">
+              <label><input type="radio" name="preset" value="demo" checked><span><strong>短時間デモ</strong><small>30試行・約2分</small></span></label>
+              <label><input type="radio" name="preset" value="standard"><span><strong>標準実験</strong><small>100試行・約4分</small></span></label>
+              <label><input type="radio" name="preset" value="precision"><span><strong>反復優先</strong><small>200試行・約7分</small></span></label>
+            </div></fieldset>
+            <div class="field-grid">
+              <label>本試行数<span><input id="total-trials" name="totalTrials" type="number" value="30" min="20" max="300" step="5"> 回</span></label>
+              <label>Go刺激の割合<span><input id="go-percent" name="goPercent" type="number" value="80" min="50" max="95" step="5"> %</span></label>
+              <label>Go図形<select id="go-shape" name="goShape"><option value="circle">円</option><option value="square">四角</option></select></label>
+              <label>刺激の表示時間<span><input id="stimulus-duration" name="stimulusDuration" type="number" value="250" min="100" max="750" step="50"> ms</span></label>
+              <label>回答できる時間<span><input id="response-deadline" name="responseDeadline" type="number" value="750" min="300" max="2000" step="50"> ms</span></label>
+              <label>試行間間隔<span><input id="iti" name="iti" type="number" value="250" min="0" max="1500" step="50"> ms</span></label>
+            </div>
+            <div id="config-errors" class="form-errors" role="alert" aria-live="polite"></div>
+            <div class="config-actions"><button type="button" id="reset-config" class="button secondary">初期値に戻す</button><button type="submit" id="start-experiment" class="button primary">操作練習へ進む</button></div>
+          </form>
+          <aside class="preview-panel" aria-labelledby="preview-title">
+            <div class="preview-header"><div><p class="eyebrow">LIVE PREVIEW</p><h3 id="preview-title">刺激と反応規則</h3></div><span id="trial-count" class="trial-badge">本試行30回</span></div>
+            <div class="go-preview" aria-label="Go刺激とNo-go刺激の例"><div><span id="go-preview-shape" class="shape circle"></span><strong>Go</strong><small>Spaceを押す</small></div><div><span id="no-go-preview-shape" class="shape square"></span><strong>No-go</strong><small>何も押さない</small></div></div>
+            <dl class="preview-summary"><div><dt>条件内訳</dt><dd id="condition-counts">Go 24 / No-go 6</dd></div><div><dt>概算時間</dt><dd id="estimated-time">約2分</dd></div></dl>
+            <p class="preview-note">回答できる時間は、刺激の表示時間以上にしてください。</p>
+          </aside>
+        </div>
+      </section>
+
+      <section id="device-warning" class="device-warning" hidden><strong>実験はキーボード付きPCで開いてください。</strong><p>解説と設定は閲覧できますが、スマートフォンでの本試行には対応していません。</p></section>
+      <section id="experiment-runner" class="experiment-runner" hidden aria-label="実験実行画面"><div id="jspsych-target"></div></section>
+
+      <section id="results" class="results-section" hidden aria-labelledby="results-title">
+        <div class="results-heading"><div><p class="eyebrow">RESULTS</p><h2 id="results-title">実験結果</h2><p>誤反応、見逃し、正答Go反応時間を記述的に確認します。</p></div><div class="results-actions"><button type="button" id="download-csv" class="button primary">CSVを保存</button><button type="button" id="retry-same" class="button secondary">同じ設定でもう一度</button><button type="button" id="change-settings" class="button quiet">設定を変更</button></div></div>
+        <div class="metric-grid">
+          <article class="metric-card"><span>No-go誤反応率</span><strong id="commission-rate">—</strong><small id="commission-detail">—</small></article>
+          <article class="metric-card"><span>Go見逃し率</span><strong id="omission-rate">—</strong><small id="omission-detail">—</small></article>
+          <article class="metric-card"><span>正答Go平均RT</span><strong id="mean-go-rt">—</strong><small>正しく押した試行のみ</small></article>
+        </div>
+        <div class="results-grid"><div class="result-card"><h3>反応分類</h3><div class="table-scroll"><table><thead><tr><th>条件</th><th>試行数</th><th>正反応</th><th>誤り</th><th>正反応率</th></tr></thead><tbody id="summary-body"></tbody></table></div></div>
+          <aside class="result-card"><h3>結果を読むときの確認点</h3><ul class="result-checks"><li>Go比率を変えると誤反応率とGo反応時間はどう変わるでしょうか。</li><li>誤反応率だけでなく、Goの見逃し率も併せて速度―正確性の方略を考えます。</li><li id="focus-summary">本試行中のフォーカス喪失：0回</li></ul></aside></div>
+        <details class="data-dictionary"><summary>CSVの主な列</summary><dl><div><dt>condition</dt><dd>go または no-go。</dd></div><div><dt>response_made / correctness</dt><dd>Space反応の有無（1/0）と条件に照らした正誤（1/0）。</dd></div><div><dt>rt</dt><dd>刺激描画後から最初のSpace反応までの時間（ms）。無反応は空欄。</dd></div><div><dt>go_percent / total_trials</dt><dd>設定したGo比率と総試行数。</dd></div><div><dt>focus_loss_count</dt><dd>本試行中にページがフォーカスを失った累積回数。</dd></div></dl></details>
+      </section>
+    </main>
+
+    <footer class="site-footer"><div class="site-footer__inner"><p><strong>心理学実験演習サイト</strong><br><span>教育用デモ — 個人情報や実験データは送信されません。</span></p><nav class="footer-nav" aria-label="フッターナビゲーション"><a href="#overview">概要</a><a href="#setup">設定</a><a href="../../">実験一覧</a></nav></div></footer>
+    <script src="https://unpkg.com/jspsych@8.3.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.2.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-browser-check@2.1.0"></script>
+    <script type="module" src="experiment.js?v=1.0.0"></script>
+  </body>
+</html>

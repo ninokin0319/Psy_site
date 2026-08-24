@@ -1,0 +1,41 @@
+.go-preview {
+  min-height: 230px;
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  border: 1px solid var(--line);
+  background: #f1f1ec;
+}
+
+.go-preview > div { display: grid; place-items: center; align-content: center; gap: .45rem; text-align: center; }
+.go-preview small { color: var(--muted); }
+.shape { width: 82px; height: 82px; display: block; background: var(--green); }
+.shape.circle { border-radius: 50%; }
+.shape.square { border-radius: 4px; background: #b26439; }
+
+.go-no-go-trial { min-height: calc(100vh - 68px); padding: 1.2rem var(--gutter) 2rem; display: flex; flex-direction: column; align-items: center; }
+.trial-toolbar { width: min(55rem, 100%); display: flex; justify-content: space-between; gap: 1rem; color: var(--muted); font-size: .85rem; }
+.progress-track { width: min(55rem, 100%); height: 5px; margin: .8rem 0 1.5rem; overflow: hidden; background: #cbd0c9; }
+.progress-track span { height: 100%; display: block; background: var(--green); }
+.go-stage { width: min(46rem, 100%); min-height: 390px; display: grid; place-items: center; border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow); }
+.go-stage .shape { width: clamp(100px, 15vw, 150px); height: clamp(100px, 15vw, 150px); }
+.trial-status { min-height: 1.8rem; margin: .9rem 0 0; color: var(--green); font-weight: 800; }
+.instruction-rule { margin: 1.5rem auto; display: grid; grid-template-columns: auto auto; align-items: center; justify-content: center; gap: .7rem 1.2rem; }
+.instruction-rule .shape { width: 48px; height: 48px; }
+
+.metric-grid { margin-bottom: var(--space-4); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.metric-card { min-width: 0; padding: var(--space-4); display: grid; gap: .45rem; background: var(--surface); }
+.metric-card span, .metric-card small { color: var(--muted); }
+.metric-card strong { color: var(--green); font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 3rem); }
+.result-checks { margin: 0; padding-left: 1.2rem; }
+.result-checks li + li { margin-top: .8rem; }
+
+@media (max-width: 700px) {
+  .metric-grid { grid-template-columns: 1fr; }
+  .go-stage { min-height: 300px; }
+}
+
+@media (max-width: 460px) {
+  .go-preview { grid-template-columns: 1fr; }
+}
