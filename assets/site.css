@@ -307,6 +307,18 @@ h3 { font-size: var(--font-h3); }
 
 .steps p { margin: .2rem 0 0; color: var(--muted); }
 
+.development-notice {
+  max-width: calc(var(--content-wide) - 2 * var(--gutter));
+  margin: 0 auto var(--space-7);
+  padding: var(--space-5);
+  border: 1px solid var(--line);
+  border-top: 5px solid var(--danger);
+  background: var(--surface);
+}
+
+.development-notice h2 { font-size: var(--font-h3); }
+.development-notice p:last-child { max-width: 62rem; margin: 0; color: var(--muted); }
+
 .site-footer { background: var(--ink); color: #dfe5e0; }
 
 .site-footer__inner {
@@ -363,6 +375,7 @@ h3 { font-size: var(--font-h3); }
   .hero-actions .button { width: 100%; }
   .section { padding-inline: var(--gutter); }
   .experiment-card { min-height: 0; }
+  .development-notice { margin-inline: var(--gutter); padding: var(--space-4); }
   .footer-nav { gap: .6rem 1rem; }
 }
 
