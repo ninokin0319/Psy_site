@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="ミュラー・リヤー錯視を調整法で体験する授業用心理学実験です。">
+    <meta property="og:title" content="ミュラー・リヤー錯視 | 心理学実験演習サイト">
+    <meta property="og:description" content="条件を調整し、主観的等価点を測定できる授業用ブラウザ実験です。">
+    <meta property="og:type" content="website">
+    <title>ミュラー・リヤー錯視 | 心理学実験演習サイト</title>
+    <link rel="stylesheet" href="https://unpkg.com/jspsych@8.3.0/css/jspsych.css">
+    <link rel="stylesheet" href="../../assets/site.css">
+    <link rel="stylesheet" href="experiment.css">
+  </head>
+  <body class="experiment-page">
+    <header class="site-header compact">
+      <div class="site-header__inner">
+        <a class="brand" href="../../"><span class="brand-mark" aria-hidden="true">Ψ</span><span>心理学実験演習サイト</span></a>
+        <nav class="site-nav experiment-nav" aria-label="実験ページナビゲーション">
+          <a href="#overview">概要</a>
+          <a href="#theory">詳しい解説</a>
+          <a href="#setup">設定</a>
+          <a class="back-link" href="../../">← 実験一覧</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="experiment-hero" id="overview">
+        <div>
+          <p class="eyebrow">EXPERIMENT</p>
+          <h1>ミュラー・リヤー錯視</h1>
+          <p class="lead">同じ長さの線でも、両端についた矢羽の向きによって長さが違って見えることがあります。比較線を動かし、どこで「同じ」に見えるかを測りましょう。</p>
+          <div class="experiment-hero-actions">
+            <a class="button primary" href="#setup">設定へ進む</a>
+            <a class="text-link" href="#theory">背景と方法を読む <span aria-hidden="true">↓</span></a>
+          </div>
+        </div>
+        <dl class="experiment-meta">
+          <div><dt>測定法</dt><dd>調整法</dd></div>
+          <div><dt>所要時間</dt><dd>約3–15分</dd></div>
+          <div><dt>推奨環境</dt><dd>キーボード付きPC</dd></div>
+        </dl>
+      </section>
+
+      <details class="explanation-panel" id="theory">
+        <summary>
+          <span><strong>背景・仮説・実験計画を読む</strong><small>授業で扱う理論、測定指標、測定上の注意を確認できます。</small></span>
+        </summary>
+        <div class="explanation-content">
+          <section class="learning-grid" aria-label="背景と方法">
+            <article>
+              <p class="eyebrow">BACKGROUND</p>
+              <h2>現象と研究目的</h2>
+              <p>ミュラー・リヤー錯視は、同じ物理長の主線でも、両端の矢羽が内向きの図形は短く、外向きの図形は長く知覚されやすい幾何学錯視です。ただし、錯視を生む機序について単一の説明が確立しているわけではありません。</p>
+              <p>本実験の目的は、矢羽の向きが「標準線と同じ長さに見える比較線の長さ」に与える影響を、心理物理学的な調整法で測定することです。</p>
+            </article>
+            <article>
+              <p class="eyebrow">HYPOTHESIS</p>
+              <h2>仮説</h2>
+              <p>標準線が150pxの場合、内向条件では比較線を150pxより短く、外向条件では150pxより長く調整すると予測します。したがって、後述の調整誤差は内向で負、外向で正になることが典型的な予測です。</p>
+              <p>これは集団レベルの方向性に関する仮説です。個人の少数試行の結果が必ずこの順序になることを意味しません。</p>
+            </article>
+            <article>
+              <p class="eyebrow">DESIGN &amp; PROCEDURE</p>
+              <h2>実験計画と手続き</h2>
+              <p>刺激配置は、矢羽条件2水準（内向・外向）× 比較線初期値2水準（短・長）の参加者内配置です。主分析の要因は矢羽条件であり、比較線初期値は調整開始点に由来する偏りを抑えるためのカウンターバランス変数として、各矢羽条件内で同数にします。条件の組合せを作った後、提示順だけを無作為化します。</p>
+              <p>各試行では、上段の矢羽付き標準線と下段の比較線を同時提示します。上下矢印キーで比較線を調整し、主線が同じ長さに見えた時点でSpaceキーを押します。速さではなく、毎回同じ判断基準を用いることを優先します。</p>
+            </article>
+            <article>
+              <p class="eyebrow">MEASURES</p>
+              <h2>指標と解釈</h2>
+              <p>各試行の最終比較線長は、主観的等価点（PSE）の1回の推定値です。これを矢羽条件ごとに平均した値を、その条件のPSEとします。調整誤差は <strong>平均PSE − 標準線長</strong> で定義し、負値は比較線を物理的に短く、正値は長く合わせたことを示します。</p>
+              <p>用語と角度は参考サイトに統一します。矢羽角度60°を「内向」（矢羽線が主線の中央側へ伸びる配置）、300°を「外向」（矢羽線が主線の外側へ伸びる配置）と呼びます。300°は反射角で、2本の矢羽が作る小さい方の角は両条件とも60°です。</p>
+            </article>
+          </section>
+
+          <aside class="method-notes" aria-labelledby="method-notes-title">
+            <div>
+              <p class="eyebrow">MEASUREMENT NOTES</p>
+              <h2 id="method-notes-title">測定上の注意</h2>
+            </div>
+            <ul>
+              <li>この画面のpxはCSSピクセルです。視角を統一する研究では、画面の物理寸法と視距離を測り、刺激を視角へ換算してください。</li>
+              <li>個人結果は記述統計です。一般化には参加者数、除外基準、反復数、分析計画を事前に定めた集団実験が必要です。</li>
+              <li>画面離脱、ブラウザ、表示領域、画素密度、推定更新頻度をCSVに残し、品質確認に利用します。</li>
+            </ul>
+          </aside>
+        </div>
+      </details>
+
+      <details class="references-panel">
+        <summary>根拠資料と引用文献</summary>
+        <ol>
+          <li>高橋康介（2020）<a href="https://kohske.github.io/KisojiOnline/theme/Muller-lyer/">キソジオンライン：ミュラーリヤー実験</a> — 条件コード、刺激寸法、調整法の授業設計を参照。</li>
+          <li>Fechner, G. T. (1860). <a href="https://doi.org/10.3931/e-rara-10879"><cite>Elemente der Psychophysik</cite></a>. Breitkopf und Härtel.</li>
+          <li>Pressey, A., &amp; Martin, N. S. (1990). <a href="https://doi.org/10.1007/BF00867211">The effects of varying fins in Müller-Lyer and Holding illusions</a>. <cite>Psychological Research, 52</cite>, 46–53.</li>
+          <li>Mundy, M. E. (2014). <a href="https://doi.org/10.5709/acp-0151-8">Testing day: The effects of processing bias induced by Navon stimuli on the strength of the Müller-Lyer illusion</a>. <cite>Advances in Cognitive Psychology, 10</cite>, 9–14.</li>
+        </ol>
+      </details>
+
+      <section class="setup-section" id="setup" aria-labelledby="setup-title">
+        <div class="setup-heading">
+          <div>
+            <p class="eyebrow">SETUP</p>
+            <h2 id="setup-title">実験条件を設定する</h2>
+          </div>
+          <p>数値を変えると、右のプレビューと試行数が更新されます。</p>
+        </div>
+
+        <div class="setup-layout">
+          <form id="config-form" class="config-panel" novalidate>
+            <fieldset>
+              <legend>プリセット</legend>
+              <div class="preset-group">
+                <label><input type="radio" name="preset" value="demo" checked><span><strong>短時間デモ</strong><small>8試行・授業中の体験向け</small></span></label>
+                <label><input type="radio" name="preset" value="standard"><span><strong>標準実験</strong><small>20試行・安定した平均向け</small></span></label>
+                <label><input type="radio" name="preset" value="precision"><span><strong>精度優先</strong><small>40試行・1px刻みで測定</small></span></label>
+              </div>
+            </fieldset>
+
+            <div class="field-grid">
+              <label>標準線の長さ <span><input id="standard-length" name="standardLength" type="number" value="150" min="80" max="240" step="5"> px</span></label>
+              <label>矢羽の長さ <span><input id="wing-length" name="wingLength" type="number" value="50" min="15" max="80" step="5"> px</span></label>
+              <label>矢羽角度 1（内向） <span><input id="angle-one" name="angleOne" type="number" value="60" min="20" max="160" step="5"> °</span></label>
+              <label>矢羽角度 2（外向） <span><input id="angle-two" name="angleTwo" type="number" value="300" min="200" max="340" step="5"> °</span></label>
+              <label>比較線の短い初期値 <span><input id="initial-short" name="initialShort" type="number" value="80" min="30" max="140" step="5"> px</span></label>
+              <label>比較線の長い初期値 <span><input id="initial-long" name="initialLong" type="number" value="220" min="160" max="280" step="5"> px</span></label>
+              <label>1操作の変化量 <span><input id="step-size" name="stepSize" type="number" value="5" min="1" max="20" step="1"> px</span></label>
+              <label>条件ごとの反復数 <span><input id="repetitions" name="repetitions" type="number" value="2" min="1" max="10" step="1"> 回</span></label>
+              <label>試行間間隔 <span><input id="iti" name="iti" type="number" value="250" min="0" max="2000" step="50"> ms</span></label>
+            </div>
+
+            <div id="config-errors" class="form-errors" role="alert" aria-live="polite"></div>
+            <div class="config-actions">
+              <button type="button" id="reset-config" class="button secondary">初期値に戻す</button>
+              <button type="submit" id="start-experiment" class="button primary">操作練習へ進む</button>
+            </div>
+          </form>
+
+          <aside class="preview-panel" aria-labelledby="preview-title">
+            <div class="preview-header">
+              <div><p class="eyebrow">LIVE PREVIEW</p><h3 id="preview-title">刺激プレビュー</h3></div>
+              <span id="trial-count" class="trial-badge">全8試行</span>
+            </div>
+            <canvas id="stimulus-preview" width="600" height="380">ミュラー・リヤー図形のプレビュー</canvas>
+            <dl class="preview-summary">
+              <div><dt>概算時間</dt><dd id="estimated-time">約3分</dd></div>
+              <div><dt>条件</dt><dd id="condition-summary">2矢羽条件 × 2初期値 × 2反復</dd></div>
+            </dl>
+            <p class="preview-note">内向・外向の両条件を同時表示しています。本番では各試行で一方の標準刺激と比較線を提示します。</p>
+            <p class="precision-note"><strong>精度を高める工夫：</strong>本番の刺激は拡大縮小せず、端末の画素密度に合わせて描画します。画面の更新頻度と、試行中に別画面へ移った回数もCSVへ記録します。</p>
+          </aside>
+        </div>
+      </section>
+
+      <section id="device-warning" class="device-warning" hidden>
+        <strong>実験はキーボード付きPCで開いてください。</strong>
+        <p>背景と方法はこの端末でも読めますが、初期版はスマートフォンでの実験操作に対応していません。</p>
+      </section>
+
+      <section id="experiment-runner" class="experiment-runner" hidden aria-label="実験実行画面">
+        <div id="jspsych-target"></div>
+      </section>
+
+      <section id="results" class="results-section" hidden aria-labelledby="results-title">
+        <div class="results-heading">
+          <div>
+            <p class="eyebrow">RESULTS</p>
+            <h2 id="results-title">実験結果</h2>
+            <p>矢羽条件ごとの主観的等価点（PSE）を比較します。典型的な予測は内向で負、外向で正ですが、個人結果は記述値として解釈してください。</p>
+          </div>
+          <div class="results-actions">
+            <button type="button" id="download-csv" class="button primary">CSVを保存</button>
+            <button type="button" id="retry-same" class="button secondary">同じ設定でもう一度</button>
+            <button type="button" id="change-settings" class="button quiet">設定を変更</button>
+          </div>
+        </div>
+
+        <div class="results-grid">
+          <div class="result-table-card">
+            <h3>矢羽条件別の集計</h3>
+            <div class="table-scroll">
+              <table>
+                <thead><tr><th>矢羽条件</th><th>試行数</th><th>平均PSE</th><th>調整誤差</th></tr></thead>
+                <tbody id="summary-body"></tbody>
+              </table>
+            </div>
+            <p class="result-formula"><strong>調整誤差</strong> ＝ 平均PSE − 標準線の長さ。負値は短く、正値は長く合わせたことを示します。絶対値を用いる場合にのみ誤差の大きさと表現します。</p>
+            <p id="quality-summary" class="quality-summary"></p>
+          </div>
+          <figure class="result-chart-card">
+            <h3>条件別PSE</h3>
+            <canvas id="result-chart" width="600" height="360">矢羽条件別PSEの点グラフ</canvas>
+            <figcaption>点は平均PSE、破線は物理的な標準線長、縦線は調整誤差を示します。</figcaption>
+          </figure>
+        </div>
+
+        <details class="data-dictionary">
+          <summary>CSVの列とデータの意味</summary>
+          <dl>
+            <div><dt>experiment_id / experiment_version</dt><dd>実験を識別する名前と版。</dd></div>
+            <div><dt>session_id / recorded_at</dt><dd>個人を特定しない一時IDと実施日時。</dd></div>
+            <div><dt>trial_index / condition_order</dt><dd>試行番号とランダム化後の提示順。</dd></div>
+            <div><dt>wing_angle / wing_direction / wing_smaller_angle</dt><dd>参考サイトと同じ矢羽角度、内向・外向の別、2本の矢羽が作る小さい方の角（度）。</dd></div>
+            <div><dt>standard_length / wing_length</dt><dd>標準線と矢羽の長さ（px）。</dd></div>
+            <div><dt>initial_comparison_length / step_size</dt><dd>比較線の初期値と1操作の変化量（px）。</dd></div>
+            <div><dt>final_comparison_length</dt><dd>同じ長さに見えると回答した比較線長。各試行におけるPSEの推定値。</dd></div>
+            <div><dt>adjustment_count / rt</dt><dd>調整回数と反応時間（ms）。</dd></div>
+            <div><dt>blur_count / quality_flag</dt><dd>試行中に画面を離れた回数と、確認を勧める品質フラグ。</dd></div>
+            <div><dt>browser / os / viewport_width / viewport_height</dt><dd>ブラウザ、OS、実験開始時の表示領域。</dd></div>
+            <div><dt>device_pixel_ratio / vsync_rate</dt><dd>端末の画素密度と推定画面更新頻度（Hz）。</dd></div>
+            <div><dt>preset / repetitions</dt><dd>使用したプリセットと条件ごとの反復数。</dd></div>
+          </dl>
+        </details>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <p><strong>心理学実験演習サイト</strong><br><span>教育用デモ — 個人情報や実験データは送信されません。</span></p>
+        <nav class="footer-nav" aria-label="フッターナビゲーション">
+          <a href="#overview">概要</a>
+          <a href="#setup">設定</a>
+          <a href="../../">実験一覧</a>
+        </nav>
+      </div>
+    </footer>
+    <script src="https://unpkg.com/jspsych@8.3.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.2.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-browser-check@2.1.0"></script>
+    <script type="module" src="experiment.js?v=1.3.0"></script>
+  </body>
+</html>

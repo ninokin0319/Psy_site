@@ -1,0 +1,23 @@
+.search-preview-wrap { padding: 1rem; border: 1px solid var(--line); background: #111; }
+#search-preview { width: 100%; height: auto; display: block; }
+.checkbox-group { display: flex; flex-wrap: wrap; gap: .6rem; }
+.checkbox-group label { padding: .55rem .75rem; display: flex; align-items: center; gap: .45rem; border: 1px solid var(--line); background: white; cursor: pointer; }
+.checkbox-group input { width: 1.1rem; height: 1.1rem; accent-color: var(--green); }
+
+.search-trial { min-height: calc(100vh - 68px); padding: 1rem var(--gutter) 2rem; display: flex; flex-direction: column; align-items: center; }
+.trial-toolbar { width: min(55rem, 100%); display: flex; justify-content: space-between; gap: 1rem; color: var(--muted); font-size: .85rem; }
+.progress-track { width: min(55rem, 100%); height: 5px; margin: .7rem 0 1rem; overflow: hidden; background: #cbd0c9; }
+.progress-track span { height: 100%; display: block; background: var(--green); }
+.search-canvas-wrap { width: 602px; border: 1px solid #30352f; background: #111; box-shadow: var(--shadow); }
+.search-canvas-wrap canvas { width: 600px; height: 600px; display: block; }
+.search-controls { margin-top: 1rem; display: flex; gap: 2rem; color: var(--muted); }
+.trial-status { min-height: 1.7rem; margin: .6rem 0 0; color: var(--green); font-weight: 800; }
+
+#search-chart { width: 100%; height: auto; display: block; background: #f3f3ee; }
+.slope-table td, .slope-table th { text-align: right; }
+.slope-table td:first-child, .slope-table th:first-child { text-align: left; }
+
+@media (max-width: 700px) {
+  .search-canvas-wrap { width: 602px; }
+  .search-controls { align-items: flex-start; flex-direction: column; gap: .5rem; }
+}

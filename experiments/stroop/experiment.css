@@ -1,0 +1,35 @@
+.stroop-preview {
+  min-height: 230px;
+  padding: 2rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  background: #f1f1ec;
+}
+
+.stroop-preview-word { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; letter-spacing: .08em; }
+.key-map { margin: var(--space-3) 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .45rem; list-style: none; }
+.key-map li { padding: .6rem .35rem; border: 1px solid var(--line); background: white; text-align: center; font-size: .82rem; }
+.key-map kbd { margin-bottom: .25rem; display: block; }
+
+.stroop-trial { min-height: calc(100vh - 68px); padding: 1.2rem var(--gutter) 2rem; display: flex; flex-direction: column; align-items: center; }
+.trial-toolbar { width: min(55rem, 100%); display: flex; justify-content: space-between; gap: 1rem; color: var(--muted); font-size: .85rem; }
+.progress-track { width: min(55rem, 100%); height: 5px; margin: .8rem 0 1.5rem; overflow: hidden; background: #cbd0c9; }
+.progress-track span { height: 100%; display: block; background: var(--green); }
+.stroop-stage { width: min(46rem, 100%); min-height: 360px; padding: 2rem; display: grid; place-items: center; border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow); }
+.stroop-word { font-size: clamp(3.5rem, 10vw, 7rem); font-weight: 900; letter-spacing: .08em; }
+.trial-key-map { width: min(46rem, 100%); margin-top: 1rem; }
+.trial-status { min-height: 1.8rem; margin: .8rem 0 0; color: var(--green); font-weight: 800; }
+
+.rt-bars { min-height: 260px; padding: 1rem; display: flex; align-items: end; justify-content: center; gap: 2rem; border-left: 1px solid var(--line); border-bottom: 1px solid var(--line); background: #f3f3ee; }
+.rt-bar-item { width: min(9rem, 38%); text-align: center; }
+.rt-bar { min-height: 4px; margin-bottom: .6rem; display: block; background: var(--green); }
+.rt-bar-item:nth-child(2) .rt-bar { background: #7b9f8b; }
+.rt-value { display: block; margin-bottom: .35rem; font-weight: 800; }
+.rt-label { color: var(--muted); font-size: .82rem; }
+
+@media (max-width: 620px) {
+  .key-map { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .key-map li:last-child { grid-column: 1 / -1; }
+  .stroop-stage { min-height: 270px; padding: 1rem; }
+}

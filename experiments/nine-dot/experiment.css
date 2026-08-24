@@ -1,0 +1,29 @@
+.nine-preview { min-height: 240px; display: grid; place-items: center; border: 1px solid var(--line); background: #f1f1ec; }
+.dot-grid { display: grid; grid-template-columns: repeat(3, 14px); gap: 38px; }
+.dot-grid span { width: 14px; aspect-ratio: 1; border-radius: 50%; background: var(--ink); }
+.nine-task { max-width: 60rem; margin: 0 auto; padding: 4vh var(--space-5); text-align: left; }
+.nine-task h2 { font-size: clamp(1.9rem, 5vw, 3rem); }
+.nine-task > p { color: var(--muted); }
+.task-progress { display: flex; justify-content: space-between; gap: 1rem; color: var(--muted); font-size: .85rem; }
+.nine-canvas { width: min(100%, 640px); height: auto; display: block; margin: 1rem auto; border: 1px solid var(--line); cursor: crosshair; touch-action: none; }
+.drawing-status { display: flex; justify-content: space-between; gap: 1rem; color: var(--muted); font-weight: 800; }
+.task-feedback { min-height: 1.5em; color: #8a3d2d !important; font-weight: 800; }
+.drawing-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .7rem; }
+.rating-buttons { display: grid; grid-template-columns: repeat(5, 1fr); gap: .6rem; margin-top: 2rem; }
+.rating-buttons .button { min-width: 0; }
+.rating-labels { display: flex; justify-content: space-between; margin-top: .6rem; color: var(--muted); font-size: .85rem; }
+.nine-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: .75rem; }
+.nine-summary > div { padding: 1rem; border: 1px solid var(--line); background: #f3f3ee; }
+.nine-summary strong, .nine-summary span { display: block; }
+.nine-summary strong { font-size: 1.6rem; }
+#attempt-history { overflow-x: auto; }
+#attempt-history table { width: 100%; border-collapse: collapse; }
+#attempt-history th, #attempt-history td { padding: .7rem; border-bottom: 1px solid var(--line); text-align: left; }
+#solution-canvas { width: 100%; height: auto; display: block; background: #f5f3e9; }
+@media (max-width: 680px) {
+  .nine-task { padding-inline: var(--gutter); }
+  .task-progress, .drawing-status { flex-direction: column; }
+  .drawing-actions { align-items: stretch; flex-direction: column; }
+  .drawing-actions .button { width: 100%; }
+  .nine-summary { grid-template-columns: repeat(2, 1fr); }
+}

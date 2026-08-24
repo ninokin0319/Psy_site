@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="特徴探索と結合探索を比較し、セットサイズに伴う反応時間の変化を測定します。">
+    <meta property="og:title" content="視覚探索課題 | 心理学実験演習サイト">
+    <meta property="og:description" content="探索タイプ、セットサイズ、ターゲット有無を操作する授業用ブラウザ実験です。">
+    <meta property="og:type" content="website">
+    <title>視覚探索課題 | 心理学実験演習サイト</title>
+    <link rel="stylesheet" href="https://unpkg.com/jspsych@8.3.0/css/jspsych.css">
+    <link rel="stylesheet" href="../../assets/site.css"><link rel="stylesheet" href="../../assets/lesson.css"><link rel="stylesheet" href="experiment.css">
+  </head>
+  <body class="lesson-page">
+    <header class="site-header compact"><div class="site-header__inner"><a class="brand" href="../../"><span class="brand-mark" aria-hidden="true">Ψ</span><span>心理学実験演習サイト</span></a><nav class="site-nav lesson-nav" aria-label="実験ページナビゲーション"><a href="#overview">概要</a><a href="#theory">詳しい解説</a><a href="#setup">設定</a><a href="../../">← 実験一覧</a></nav></div></header>
+    <main>
+      <section class="lesson-hero" id="overview"><div><p class="eyebrow">EXPERIMENT</p><h1>視覚探索課題</h1><p class="lead">多数の斜線から「赤い右下がり線」を探し、あれば右矢印、なければ左矢印で答えます。特徴探索と結合探索で、項目数の影響がどう変わるかを調べます。</p><div class="lesson-hero-actions"><a class="button primary" href="#setup">設定へ進む</a><a class="text-link" href="#theory">背景と方法を読む ↓</a></div></div><dl class="lesson-meta"><div><dt>実験計画</dt><dd>3要因参加者内</dd></div><div><dt>測定指標</dt><dd>正答率・探索時間</dd></div><div><dt>推奨環境</dt><dd>矢印キー付きPC</dd></div></dl></section>
+
+      <details class="explanation-panel" id="theory"><summary><span><strong>背景・仮説・実験計画を読む</strong><small>特徴探索、結合探索、探索効率の考え方を確認できます。</small></span></summary><div class="explanation-content">
+        <section class="learning-grid" aria-label="背景と方法">
+          <article><p class="eyebrow">BACKGROUND</p><h2>現象</h2><p>ターゲットが単一の特徴で妨害刺激と区別できる場合、項目数が増えても探索時間が比較的増えにくいことがあります。一方、複数特徴の組合せで区別する場合は、項目数の影響が大きくなりやすいとされています。</p></article>
+          <article><p class="eyebrow">HYPOTHESIS</p><h2>仮説</h2><p>特徴探索より結合探索で、セットサイズの増加に伴う正答反応時間の傾きが大きくなると予測します。また、結合探索ではターゲットなし試行の傾きが大きくなりやすいと予測します。</p></article>
+          <article><p class="eyebrow">DESIGN &amp; PROCEDURE</p><h2>実験計画と手続き</h2><p>探索タイプ（特徴・結合）× セットサイズ（既定8・16・32）× ターゲット有無の参加者内計画です。ターゲットは赤い右下がり線です。特徴探索では緑の右下がり線、結合探索では色と傾きの異なる線を妨害刺激にします。</p></article>
+          <article><p class="eyebrow">MEASURES</p><h2>指標と解釈</h2><p>条件ごとに正答率と正答反応時間を求め、セットサイズに対する単回帰の傾きをms／項目で示します。傾きは探索効率の記述指標ですが、それだけで特定の認知機序を確定するものではありません。</p></article>
+        </section>
+        <aside class="method-notes"><div><p class="eyebrow">MEASUREMENT NOTES</p><h2>測定上の注意</h2></div><ul><li>刺激は600×600 CSSピクセルの6×6グリッドへ提示します。</li><li>誤反応と時間切れは平均反応時間から除外し、正答率と併せて解釈します。</li><li>十分な傾き推定には各セルの反復が必要です。短時間デモは構造理解用です。</li></ul></aside>
+      </div></details>
+      <details class="references-panel"><summary>根拠資料と引用文献</summary><ol><li>高橋康介（2020）<a href="https://kohske.github.io/KisojiOnline/theme/VisualSearch/">キソジオンライン：視覚探索実験</a> — ターゲット、要因計画、キー反応、刺激配置を参照。</li><li>Treisman, A. M., &amp; Gelade, G. (1980). <a href="https://doi.org/10.1016/0010-0285(80)90005-5">A feature-integration theory of attention</a>. <cite>Cognitive Psychology, 12</cite>, 97–136.</li></ol></details>
+
+      <section class="setup-section" id="setup" aria-labelledby="setup-title"><div class="setup-heading"><div><p class="eyebrow">SETUP</p><h2 id="setup-title">実験条件を設定する</h2></div><p>探索タイプ、項目数、反復数を授業の目的に合わせて変更できます。</p></div><div class="setup-layout">
+        <form id="config-form" class="config-panel" novalidate>
+          <fieldset><legend>プリセット</legend><div class="preset-group"><label><input type="radio" name="preset" value="demo" checked><span><strong>短時間デモ</strong><small>12試行</small></span></label><label><input type="radio" name="preset" value="standard"><span><strong>標準実験</strong><small>60試行</small></span></label><label><input type="radio" name="preset" value="precision"><span><strong>反復優先</strong><small>120試行</small></span></label></div></fieldset>
+          <div class="field-grid"><label>探索タイプ<select id="search-types" name="searchTypes"><option value="both">特徴・結合の両方</option><option value="feature">特徴探索のみ</option><option value="conjunction">結合探索のみ</option></select></label><label>条件ごとの反復数<span><input id="repetitions" name="repetitions" type="number" value="1" min="1" max="20" step="1"> 回</span></label><label>回答制限時間<span><input id="response-deadline" name="responseDeadline" type="number" value="6000" min="1500" max="15000" step="500"> ms</span></label><label>試行間間隔<span><input id="iti" name="iti" type="number" value="500" min="0" max="2000" step="50"> ms</span></label></div>
+          <fieldset><legend>セットサイズ</legend><div class="checkbox-group"><label><input type="checkbox" name="setSize" value="8" checked>8項目</label><label><input type="checkbox" name="setSize" value="16" checked>16項目</label><label><input type="checkbox" name="setSize" value="32" checked>32項目</label></div></fieldset>
+          <div id="config-errors" class="form-errors" role="alert" aria-live="polite"></div><div class="config-actions"><button type="button" id="reset-config" class="button secondary">初期値に戻す</button><button type="submit" id="start-experiment" class="button primary">操作練習へ進む</button></div>
+        </form>
+        <aside class="preview-panel" aria-labelledby="preview-title"><div class="preview-header"><div><p class="eyebrow">LIVE PREVIEW</p><h3 id="preview-title">結合探索の例</h3></div><span id="trial-count" class="trial-badge">本試行12回</span></div><div class="search-preview-wrap"><canvas id="search-preview" width="600" height="600">赤い右下がり線を探す視覚探索刺激</canvas></div><dl class="preview-summary"><div><dt>概算時間</dt><dd id="estimated-time">約3分</dd></div><div><dt>条件</dt><dd id="condition-summary">2探索 × 3サイズ × 有無</dd></div></dl><p class="preview-note"><kbd>→</kbd> ターゲットあり　 <kbd>←</kbd> ターゲットなし</p></aside>
+      </div></section>
+
+      <section id="device-warning" class="device-warning" hidden><strong>実験は矢印キー付きPCで開いてください。</strong><p>固定寸法の刺激を使うため、スマートフォンでの本試行には対応していません。</p></section>
+      <section id="experiment-runner" class="experiment-runner" hidden aria-label="実験実行画面"><div id="jspsych-target"></div></section>
+      <section id="results" class="results-section" hidden aria-labelledby="results-title"><div class="results-heading"><div><p class="eyebrow">RESULTS</p><h2 id="results-title">実験結果</h2><p>探索タイプとターゲット有無ごとに、セットサイズに対する反応時間の傾きを比較します。</p></div><div class="results-actions"><button type="button" id="download-csv" class="button primary">CSVを保存</button><button type="button" id="retry-same" class="button secondary">同じ設定でもう一度</button><button type="button" id="change-settings" class="button quiet">設定を変更</button></div></div><div class="results-grid"><div class="result-card"><h3>探索時間の傾き</h3><div class="table-scroll"><table class="slope-table"><thead><tr><th>探索タイプ</th><th>ターゲット</th><th>傾き</th><th>全体正答率</th></tr></thead><tbody id="slope-body"></tbody></table></div><p class="result-note">傾きは、セットサイズが1項目増えたときの平均正答反応時間の変化量です。</p></div><figure class="result-card"><h3>セットサイズ別の平均正答RT</h3><canvas id="search-chart" width="600" height="380">セットサイズと平均正答反応時間の折れ線図</canvas><figcaption class="result-note">線種は探索タイプとターゲット有無の組合せを示します。</figcaption></figure></div><details class="data-dictionary"><summary>CSVの主な列</summary><dl><div><dt>search_type</dt><dd>featureまたはconjunction。</dd></div><div><dt>set_size / target_present</dt><dd>項目数とターゲット有無。</dd></div><div><dt>correct_response / response_key</dt><dd>正答と実際の左右矢印キー。</dd></div><div><dt>correctness / rt</dt><dd>正誤（1/0）と探索時間（ms）。</dd></div></dl></details></section>
+    </main>
+    <footer class="site-footer"><div class="site-footer__inner"><p><strong>心理学実験演習サイト</strong><br><span>教育用デモ — 個人情報や実験データは送信されません。</span></p><nav class="footer-nav" aria-label="フッターナビゲーション"><a href="#overview">概要</a><a href="#setup">設定</a><a href="../../">実験一覧</a></nav></div></footer>
+    <script src="https://unpkg.com/jspsych@8.3.0"></script><script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.2.0"></script><script src="https://unpkg.com/@jspsych/plugin-browser-check@2.1.0"></script><script type="module" src="experiment.js?v=1.0.0"></script>
+  </body>
+</html>
