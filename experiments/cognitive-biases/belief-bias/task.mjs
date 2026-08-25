@@ -1,1 +1,57 @@
-import{chooseSyllogism,scoreSyllogism}from"../logic.mjs";import{createTaskSession,finishSingleQuestion,wireCommonButtons}from"../shared.mjs";let item;let startedAt;function start(){item=chooseSyllogism();startedAt=performance.now();document.querySelector("#syllogism").innerHTML=`<p><strong>前提1：</strong>${item.premises[0]}</p><p><strong>前提2：</strong>${item.premises[1]}</p><p><strong>結論：</strong>${item.conclusion}</p>`;}wireCommonButtons(start);document.querySelector("#answer-form").addEventListener("submit",event=>{event.preventDefault();const answer=new FormData(event.currentTarget).get("answer");if(!answer){document.querySelector(".question-error").textContent="どちらかを選んでください。";return;}const correct=scoreSyllogism(item,answer);const session=createTaskSession("belief-bias");const row={...session,item_id:item.id,logical_validity:item.validity,conclusion_believability:item.believability,response:answer,correctness:correct?1:0,rt:Number((performance.now()-startedAt).toFixed(3))};const logic=item.id==="valid-unbelievable"?"あるクジラは水中生物であり、前提1では水中生物は哺乳類ではないため、哺乳類ではないクジラが少なくとも1頭存在すると導けます。":"前提から分かるのは、哺乳類である「あるコウモリ」が鳥類ではないことだけです。すべてのコウモリについては結論できません。";finishSingleQuestion({taskId:"belief-bias",row,summaryHtml:`<strong>${correct?"論理形式に即した回答です":"結論の信じやすさと妥当性を分けて確認しましょう"}</strong><p>提示条件：${item.validity==="valid"?"妥当":"妥当でない"}・${item.believability==="believable"?"信じやすい":"信じにくい"}</p>`,explanationHtml:`<h2>論理的な確認</h2><p>${logic}</p><p>この1問の正誤から個人の信念バイアスの強さは測定できません。複数項目と条件別回答率が必要です。</p>`});});
+import { buildSyllogismSequence, scoreSyllogism } from "../logic.mjs";
+import { createTaskSession, downloadRowsCsv } from "../shared.mjs";
+
+let items = [];
+let index = 0;
+let responses = [];
+let startedAt = 0;
+let session;
+
+function renderItem() {
+  const item = items[index];
+  document.querySelector("#question-number").textContent = `問題 ${index + 1} / ${items.length}`;
+  document.querySelector("#syllogism").innerHTML = `<p><strong>前提1：</strong>${item.premises[0]}</p><p><strong>前提2：</strong>${item.premises[1]}</p><p><strong>結論：</strong>${item.conclusion}</p>`;
+  document.querySelector("#answer-form").reset();
+  document.querySelector(".question-error").textContent = "";
+  startedAt = performance.now();
+}
+
+function start() {
+  items = buildSyllogismSequence();
+  index = 0;
+  responses = [];
+  session = createTaskSession("belief-bias", "1.1.0");
+  document.querySelector("#question").hidden = false;
+  renderItem();
+  document.querySelector("#question").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function finish() {
+  document.querySelector("#question").hidden = true;
+  const correctCount = responses.filter((row) => row.correctness === 1).length;
+  const targetRows = responses.filter((row) => row.target_item === 1);
+  const targetCorrect = targetRows.filter((row) => row.correctness === 1).length;
+  document.querySelector("#result-summary").innerHTML = `<strong>${correctCount} / ${responses.length}問が論理形式と一致</strong><p>信念と論理が競合するターゲット項目：${targetCorrect} / ${targetRows.length}問</p>`;
+  document.querySelector("#answer-review").innerHTML = items.map((item, order) => {
+    const row = responses[order];
+    const responseLabel = row.response === "valid" ? "妥当" : "妥当でない";
+    const correctLabel = item.correctResponse === "valid" ? "妥当" : "妥当でない";
+    return `<article class="review-item"><p class="eyebrow">問題 ${order + 1}${item.target ? " · 信念と論理が競合" : ""}</p><h3>${row.correctness ? "論理形式と一致" : "要復習"}</h3><p><strong>あなたの回答：</strong>${responseLabel}　<strong>規範解：</strong>${correctLabel}</p><div class="question-prompt"><p>${item.premises[0]}</p><p>${item.premises[1]}</p><p>${item.conclusion}</p></div><p>${item.explanation}</p></article>`;
+  }).join("");
+  document.querySelector("#results").hidden = false;
+  document.querySelector("#results").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+document.querySelector("#start-task").addEventListener("click", start);
+document.querySelector("#answer-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const answer = new FormData(event.currentTarget).get("answer");
+  if (!answer) { document.querySelector(".question-error").textContent = "どちらかを選んでください。"; return; }
+  const item = items[index];
+  responses.push({ ...session, item_order: index + 1, item_id: item.id, logical_validity: item.validity, conclusion_believability: item.believability, target_item: item.target ? 1 : 0, response: answer, correctness: scoreSyllogism(item, answer) ? 1 : 0, rt: Number((performance.now() - startedAt).toFixed(3)) });
+  index += 1;
+  if (index >= items.length) finish(); else renderItem();
+});
+document.querySelector("#download-csv").addEventListener("click", () => downloadRowsCsv("belief-bias", responses));
+document.querySelector("#retry-task").addEventListener("click", () => window.location.reload());
+document.querySelector("#back-category").addEventListener("click", () => { window.location.href = "../"; });

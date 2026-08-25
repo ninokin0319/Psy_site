@@ -12,7 +12,7 @@ export const CLASSIC_WATER_JAR_PROBLEMS = Object.freeze([
 ]);
 
 export const WATER_JAR_CSV_COLUMNS = Object.freeze([
-  "experiment_id", "experiment_version", "session_id", "recorded_at", "attempt_index", "problem_order", "problem_id", "phase", "jar_a", "jar_b", "jar_c", "target", "formula_raw", "formula_normalized", "calculated_amount", "correctness", "solution_category", "problem_rt", "cumulative_rt", "sequence", "completed", "solved_count", "set_formula_count_on_dual", "shortcut_count_on_dual", "time_limit_minutes", "browser", "os", "viewport_width", "viewport_height",
+  "experiment_id", "experiment_version", "session_id", "recorded_at", "attempt_index", "problem_order", "problem_id", "phase", "jar_a", "jar_b", "jar_c", "target", "formula_raw", "formula_normalized", "calculated_amount", "correctness", "solution_category", "problem_rt", "cumulative_rt", "sequence", "show_phase", "show_feedback", "require_correct", "completed", "solved_count", "set_formula_count_on_dual", "shortcut_count_on_dual", "time_limit_minutes", "browser", "os", "viewport_width", "viewport_height",
 ]);
 
 export function normalizeFormula(value) {
@@ -20,21 +20,20 @@ export function normalizeFormula(value) {
     .trim().toUpperCase()
     .replaceAll("Ａ", "A").replaceAll("Ｂ", "B").replaceAll("Ｃ", "C")
     .replaceAll("＋", "+").replaceAll("−", "-").replaceAll("－", "-").replaceAll("―", "-")
-    .replaceAll("×", "*").replaceAll("・", "*").replace(/\s+/g, "");
+    .replace(/\s+/g, "");
 }
 
 export function parseFormula(value) {
   const normalized = normalizeFormula(value);
-  if (!normalized || !/^[+-]?(?:\d+\*?)?[ABC](?:[+-](?:\d+\*?)?[ABC])*$/.test(normalized)) {
+  if (!normalized || !/^[ABC](?:[+-][ABC])*$/.test(normalized)) {
     return { valid: false, normalized, coefficients: null };
   }
   const coefficients = { A: 0, B: 0, C: 0 };
-  const tokenPattern = /([+-]?)(\d*)\*?([ABC])/g;
+  const tokenPattern = /(^|[+-])([ABC])/g;
   let match;
   while ((match = tokenPattern.exec(normalized)) !== null) {
     const sign = match[1] === "-" ? -1 : 1;
-    const multiplier = match[2] === "" ? 1 : Number(match[2]);
-    coefficients[match[3]] += sign * multiplier;
+    coefficients[match[2]] += sign;
   }
   return { valid: true, normalized, coefficients };
 }
@@ -74,7 +73,7 @@ export function summarizeWaterJar(attempts, problems, completed) {
     const correct = attempts.find((attempt) => attempt.problemId === problem.id && attempt.correctness === 1);
     if (correct) correctAttempts.push(correct);
   }
-  const dualIds = new Set(problems.filter((problem) => problem.phase === "critical" || problem.phase === "post-extinction").map((problem) => problem.id));
+  const dualIds = new Set(problems.filter((problem) => problem.phase === "critical").map((problem) => problem.id));
   const dualSolutions = correctAttempts.filter((attempt) => dualIds.has(attempt.problemId));
   return {
     completed,

@@ -16,8 +16,6 @@
 
 .go-no-go-trial { min-height: calc(100vh - 68px); padding: 1.2rem var(--gutter) 2rem; display: flex; flex-direction: column; align-items: center; }
 .trial-toolbar { width: min(55rem, 100%); display: flex; justify-content: space-between; gap: 1rem; color: var(--muted); font-size: .85rem; }
-.progress-track { width: min(55rem, 100%); height: 5px; margin: .8rem 0 1.5rem; overflow: hidden; background: #cbd0c9; }
-.progress-track span { height: 100%; display: block; background: var(--green); }
 .go-stage { width: min(46rem, 100%); min-height: 390px; display: grid; place-items: center; border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow); }
 .go-stage .shape { width: clamp(100px, 15vw, 150px); height: clamp(100px, 15vw, 150px); }
 .trial-status { min-height: 1.8rem; margin: .9rem 0 0; color: var(--green); font-weight: 800; }

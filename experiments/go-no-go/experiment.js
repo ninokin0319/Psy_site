@@ -7,7 +7,7 @@ import {
 } from "./logic.mjs";
 
 const EXPERIMENT_ID = "go-no-go-visual";
-const EXPERIMENT_VERSION = "1.0.0";
+const EXPERIMENT_VERSION = "1.0.1";
 const Presets = Object.freeze({
   demo: { totalTrials: 30, goPercent: 80, stimulusDuration: 250, responseDeadline: 750, iti: 250 },
   standard: { totalTrials: 100, goPercent: 80, stimulusDuration: 250, responseDeadline: 750, iti: 250 },
@@ -113,10 +113,8 @@ class GoNoGoKeyboardPlugin {
   constructor(jsPsych) { this.jsPsych = jsPsych; }
 
   trial(displayElement, trial) {
-    const progress = Math.round(((trial.trial_index + 1) / trial.total_trials) * 100);
     displayElement.innerHTML = `<div class="go-no-go-trial">
       <div class="trial-toolbar"><strong>${trial.phase_label}</strong><span>${trial.trial_index + 1} / ${trial.total_trials}</span></div>
-      <div class="progress-track" aria-hidden="true"><span style="width:${progress}%"></span></div>
       <div class="go-stage"><span class="shape ${trial.stimulus_shape}" aria-label="${shapeLabel(trial.stimulus_shape)}"></span></div>
       <p class="trial-status" aria-live="polite">GoならSpace、No-goなら何も押さない</p>
     </div>`;

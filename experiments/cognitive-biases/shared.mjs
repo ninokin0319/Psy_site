@@ -1,4 +1,4 @@
-import { createSessionId, createSingleRowCsv } from "./logic.mjs";
+import { createRowsCsv, createSessionId, createSingleRowCsv } from "./logic.mjs";
 
 export function createTaskSession(taskId, version = "1.0.0") {
   return { experiment_id: taskId, experiment_version: version, session_id: createSessionId(), recorded_at: new Date().toISOString() };
@@ -25,6 +25,15 @@ export function finishSingleQuestion({ taskId, row, summaryHtml, explanationHtml
     link.download = `${taskId}_${new Date().toISOString().replaceAll(":", "-")}_${row.session_id}.csv`;
     document.body.append(link); link.click(); link.remove(); window.setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
+}
+
+export function downloadRowsCsv(taskId, rows) {
+  const blob = new Blob([createRowsCsv(rows)], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `${taskId}_${new Date().toISOString().replaceAll(":", "-")}_${rows[0]?.session_id ?? "session"}.csv`;
+  document.body.append(link); link.click(); link.remove(); window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 export function wireCommonButtons(start) {
