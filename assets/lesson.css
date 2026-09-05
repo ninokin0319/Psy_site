@@ -102,6 +102,19 @@ button.button { cursor: pointer; }
 
 .device-warning { max-width: 68rem; margin: var(--space-5) auto; padding: var(--space-3) var(--space-4); border-left: 5px solid #bc7717; background: #fff0cf; }
 .device-warning p { margin: .25rem 0 0; }
+.debrief-gate { width: min(var(--content-width), calc(100% - 2 * var(--gutter))); margin: var(--space-5) auto; padding: var(--space-4); border: 1px solid var(--line); border-left: 5px solid var(--lime); background: var(--surface); display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
+.debrief-gate h2, .debrief-gate p { margin: 0; }
+.debrief-gate .eyebrow { margin-bottom: var(--space-1); }
+.share-settings { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); }
+.share-settings [role="status"] { color: var(--muted); font-size: var(--font-sm); }
+.share-url-fallback { position: fixed; inset: auto auto 0 -9999px; }
+.file-drop { min-height: 9rem; padding: var(--space-4); border: 2px dashed var(--green); display: grid; place-items: center; background: #f0f4e8; font-weight: 800; text-align: center; cursor: pointer; }
+.file-drop.is-dragging { outline: var(--focus-ring); outline-offset: 3px; }
+.file-drop input { display: block; max-width: 100%; margin-top: var(--space-3); font-weight: 400; }
+.result-highlight.is-error { border-left-color: var(--danger); background: #f9e5e1; }
+.preview-panel .table-scroll { overflow-x: auto; }
+.preview-panel table { width: 100%; border-collapse: collapse; font-size: var(--font-sm); }
+.preview-panel th, .preview-panel td { padding: var(--space-2); border-bottom: 1px solid var(--line); text-align: left; }
 .experiment-runner { min-height: calc(100vh - 68px); overflow-x: auto; background: #e8e8e3; }
 .jspsych-display-element { font-family: "Yu Gothic UI", "Hiragino Sans", "Noto Sans JP", sans-serif; }
 .jspsych-content { width: 100%; max-width: none; }
@@ -180,4 +193,5 @@ kbd { min-width: 2.2em; margin: 0 .2em; padding: .2em .55em; display: inline-blo
   .results-actions .button { width: 100%; }
   .result-card { padding: 1.2rem; }
   .data-dictionary dl { grid-template-columns: 1fr; }
+  .debrief-gate { align-items: stretch; flex-direction: column; }
 }

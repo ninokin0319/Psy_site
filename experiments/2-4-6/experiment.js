@@ -6,7 +6,7 @@ import {
 } from "./logic.mjs";
 
 const EXPERIMENT_ID = "wason-2-4-6";
-const EXPERIMENT_VERSION = "1.0.0";
+const EXPERIMENT_VERSION = "1.1.0";
 const Presets = Object.freeze({ demo: 8, standard: 15, extended: 25 });
 const form = document.querySelector("#config-form");
 const errors = document.querySelector("#config-errors");
@@ -22,7 +22,7 @@ let lastRows = [];
 
 function readConfig() {
   const data = new FormData(form);
-  return { preset: String(data.get("preset")), maxTests: Number(data.get("maxTests")) };
+  return { preset: String(data.get("preset")), maxTests: Number(data.get("maxTests")), priorFamiliarity: String(data.get("priorFamiliarity")) };
 }
 
 function validateConfig(config) {
@@ -41,6 +41,7 @@ function updatePreview() {
 
 function applyDefaults() {
   document.querySelector("input[name='preset'][value='demo']").checked = true;
+  document.querySelector("input[name='priorFamiliarity'][value='unknown']").checked = true;
   document.querySelector("#max-tests").value = Presets.demo;
   updatePreview();
 }
@@ -79,11 +80,11 @@ class RuleDiscoveryPlugin {
     const renderHistory = (container) => {
       if (tests.length === 0) { container.textContent = "まだ数列を検査していません。"; return; }
       const table = document.createElement("table");
-      table.innerHTML = "<thead><tr><th>回</th><th>検査した数列</th><th>判定</th></tr></thead>";
+      table.innerHTML = "<thead><tr><th>回</th><th>検査した数列</th><th>事前予測</th><th>判定</th></tr></thead>";
       const body = document.createElement("tbody");
       for (const test of tests) {
         const row = document.createElement("tr");
-        const values = [test.index, test.values.join(", "), test.conforms ? "適合する" : "適合しない"];
+        const values = [test.index, test.values.join(", "), test.predictedConforms ? "適合する" : "適合しない", test.conforms ? "適合する" : "適合しない"];
         for (const value of values) { const cell = document.createElement("td"); cell.textContent = value; row.append(cell); }
         body.append(row);
       }
@@ -91,7 +92,7 @@ class RuleDiscoveryPlugin {
     };
 
     const renderTesting = () => {
-      displayElement.innerHTML = `<div class="rule-task rule-task--wide"><div class="task-progress"><span>検査 ${tests.length} / ${trial.max_tests}</span><span>最初の仮説は記録済み</span></div><h2>規則を検査する</h2><p>3つの数を入力すると、その数列が隠された規則に適合するかを確認できます。負数や小数も使えます。</p><form class="triple-form"><div class="triple-inputs"><input type="number" step="any" aria-label="1番目の数" required><input type="number" step="any" aria-label="2番目の数" required><input type="number" step="any" aria-label="3番目の数" required></div><button type="submit" class="button primary" ${tests.length >= trial.max_tests ? "disabled" : ""}>この数列を検査する</button></form><p class="task-feedback" role="status" aria-live="polite"></p><div class="test-history" aria-label="検査履歴"></div><div class="final-hypothesis"><h3>規則が分かったら回答する</h3><label class="hypothesis-field">最終的な仮説<textarea rows="3" maxlength="300" autocomplete="off"></textarea></label><p class="task-error" role="alert" aria-live="polite"></p><button type="button" class="button secondary submit-rule">最終仮説を提出する</button></div></div>`;
+      displayElement.innerHTML = `<div class="rule-task rule-task--wide"><div class="task-progress"><span>検査 ${tests.length} / ${trial.max_tests}</span><span>最初の仮説は記録済み</span></div><h2>規則を検査する</h2><p>3つの数と、その数列が規則に適合するかという事前予測を入力します。負数や小数も使えます。</p><form class="triple-form"><div class="triple-inputs"><input type="number" step="any" aria-label="1番目の数" required><input type="number" step="any" aria-label="2番目の数" required><input type="number" step="any" aria-label="3番目の数" required></div><fieldset><legend>この数列は規則に適合すると予測しますか</legend><label><input type="radio" name="prediction" value="yes"> 適合する</label><label><input type="radio" name="prediction" value="no"> 適合しない</label></fieldset><button type="submit" class="button primary" ${tests.length >= trial.max_tests ? "disabled" : ""}>この数列を検査する</button></form><p class="task-feedback" role="status" aria-live="polite"></p><div class="test-history" aria-label="検査履歴"></div><div class="final-hypothesis"><h3>規則が分かったら回答する</h3><label class="hypothesis-field">最終的な仮説<textarea rows="3" maxlength="300" autocomplete="off"></textarea></label><p class="task-error" role="alert" aria-live="polite"></p><button type="button" class="button secondary submit-rule">最終仮説を提出する</button></div></div>`;
       const history = displayElement.querySelector(".test-history");
       renderHistory(history);
       const inputs = [...displayElement.querySelectorAll(".triple-inputs input")];
@@ -102,8 +103,11 @@ class RuleDiscoveryPlugin {
         if (tests.length >= trial.max_tests) return;
         const values = inputs.map((input) => Number(input.value));
         if (values.some((value) => !Number.isFinite(value))) { feedback.textContent = "3つの数をすべて入力してください。"; return; }
+        const prediction = new FormData(event.currentTarget).get("prediction");
+        if (!prediction) { feedback.textContent = "適合するかどうかの事前予測を選んでください。"; return; }
+        const predictedConforms = prediction === "yes";
         const conforms = evaluateTriple(values);
-        tests.push({ index: tests.length + 1, values, conforms, testRt: Number((performance.now() - testStartedAt).toFixed(3)) });
+        tests.push({ index: tests.length + 1, values, predictedConforms, conforms, predictionCorrect: predictedConforms === conforms, testRt: Number((performance.now() - testStartedAt).toFixed(3)) });
         renderTesting();
         const newFeedback = displayElement.querySelector(".task-feedback");
         newFeedback.textContent = `${values.join(", ")} は規則に「${conforms ? "適合します" : "適合しません"}」。`;
@@ -152,10 +156,10 @@ function toExportRows(result, environment) {
     recorded_at: new Date().toISOString(), initial_hypothesis: result.initial_hypothesis,
     final_hypothesis: result.final_hypothesis, self_evaluation: result.self_evaluation,
     total_tests: summary.total, conforming_tests: summary.conforming, nonconforming_tests: summary.nonconforming,
-    max_tests: lastConfig.maxTests, task_rt: result.task_rt, browser: environment.browser, os: environment.os,
+    max_tests: lastConfig.maxTests, prior_familiarity: lastConfig.priorFamiliarity, task_rt: result.task_rt, browser: environment.browser, os: environment.os,
     viewport_width: environment.width, viewport_height: environment.height,
   };
-  return tests.map((test) => ({ ...shared, test_index: test.index, number_1: test.values[0], number_2: test.values[1], number_3: test.values[2], conforms: test.conforms ? 1 : 0, test_rt: test.testRt }));
+  return tests.map((test) => ({ ...shared, test_index: test.index, number_1: test.values[0], number_2: test.values[1], number_3: test.values[2], predicted_conforms: test.predictedConforms ? 1 : 0, conforms: test.conforms ? 1 : 0, prediction_correct: test.predictionCorrect ? 1 : 0, test_rt: test.testRt }));
 }
 
 function showResults(jsPsych) {
@@ -173,9 +177,9 @@ function showResults(jsPsych) {
     heading.textContent = label; text.textContent = value; block.append(heading, text); hypothesisSummary.append(block);
   }
   const history = document.querySelector("#result-history"); history.replaceChildren();
-  const table = document.createElement("table"); table.innerHTML = "<thead><tr><th>回</th><th>数列</th><th>判定</th></tr></thead>";
+  const table = document.createElement("table"); table.innerHTML = "<thead><tr><th>回</th><th>数列</th><th>事前予測</th><th>判定</th></tr></thead>";
   const body = document.createElement("tbody");
-  for (const test of tests) { const row = document.createElement("tr"); for (const value of [test.index, test.values.join(", "), test.conforms ? "適合" : "不適合"]) { const cell = document.createElement("td"); cell.textContent = value; row.append(cell); } body.append(row); }
+  for (const test of tests) { const row = document.createElement("tr"); for (const value of [test.index, test.values.join(", "), test.predictedConforms ? "適合" : "不適合", test.conforms ? "適合" : "不適合"]) { const cell = document.createElement("td"); cell.textContent = value; row.append(cell); } body.append(row); }
   table.append(body); history.append(table);
   resultsSection.hidden = false; resultsSection.scrollIntoView({ behavior: "smooth", block: "start" });
 }
@@ -192,6 +196,10 @@ function downloadCsv() {
   const blob = new Blob([createTwoFourSixCsv(lastRows)], { type: "text/csv;charset=utf-8" }); const url = URL.createObjectURL(blob); const link = document.createElement("a");
   link.href = url; link.download = `2-4-6_${new Date().toISOString().replaceAll(":", "-")}_${sessionId}.csv`; document.body.append(link); link.click(); link.remove(); window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
+
+const familiarityField = document.createElement("fieldset");
+familiarityField.innerHTML = '<legend>事前知識</legend><div class="preset-group"><label><input type="radio" name="priorFamiliarity" value="unknown" checked><span><strong>初めて取り組む</strong><small>規則を知らない／確かではない</small></span></label><label><input type="radio" name="priorFamiliarity" value="known"><span><strong>以前に経験した</strong><small>規則または解法を知っている</small></span></label></div>';
+form.querySelector(".field-grid").after(familiarityField);
 
 form.addEventListener("input", updatePreview);
 form.addEventListener("change", (event) => { if (event.target.name === "preset") document.querySelector("#max-tests").value = Presets[event.target.value]; updatePreview(); });

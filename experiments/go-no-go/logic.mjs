@@ -2,10 +2,13 @@ export const GO_NO_GO_CSV_COLUMNS = Object.freeze([
   "experiment_id",
   "experiment_version",
   "session_id",
+  "random_seed",
   "recorded_at",
   "trial_index",
   "condition_trial_index",
   "condition",
+  "previous_condition",
+  "condition_run_length",
   "stimulus_shape",
   "go_shape",
   "response_key",
@@ -38,19 +41,35 @@ export function buildGoNoGoTrials({ totalTrials, goPercent, goShape = "circle", 
   const goCount = Math.round(totalTrials * goPercent / 100);
   const noGoCount = totalTrials - goCount;
   const noGoShape = goShape === "circle" ? "square" : "circle";
-  const trials = [
-    ...Array.from({ length: goCount }, () => ({ condition: "go", stimulusShape: goShape })),
-    ...Array.from({ length: noGoCount }, () => ({ condition: "no-go", stimulusShape: noGoShape })),
-  ];
+  const gapCounts = Array(noGoCount + 1).fill(0);
+  let remainingGo = goCount;
+  for (let gap = 1; gap < noGoCount && remainingGo > 0; gap += 1) {
+    gapCounts[gap] = 1;
+    remainingGo -= 1;
+  }
+  const gapOrder = shuffle(Array.from({ length: gapCounts.length }, (_, index) => index), random);
+  for (let index = 0; index < remainingGo; index += 1) gapCounts[gapOrder[index % gapOrder.length]] += 1;
+  const trials = [];
+  for (let gap = 0; gap < gapCounts.length; gap += 1) {
+    trials.push(...Array.from({ length: gapCounts[gap] }, () => ({ condition: "go", stimulusShape: goShape })));
+    if (gap < noGoCount) trials.push({ condition: "no-go", stimulusShape: noGoShape });
+  }
   const conditionCounts = { go: 0, "no-go": 0 };
-  return shuffle(trials, random).map((trial, index) => {
+  let previousCondition = null;
+  let conditionRunLength = 0;
+  return trials.map((trial, index) => {
     conditionCounts[trial.condition] += 1;
-    return {
+    conditionRunLength = trial.condition === previousCondition ? conditionRunLength + 1 : 1;
+    const result = {
       ...trial,
       trialIndex: index + 1,
       conditionTrialIndex: conditionCounts[trial.condition],
+      previousCondition,
+      conditionRunLength,
       goShape,
     };
+    previousCondition = trial.condition;
+    return result;
   });
 }
 

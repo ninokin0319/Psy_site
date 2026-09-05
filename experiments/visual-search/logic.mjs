@@ -1,7 +1,7 @@
 export const SEARCH_CSV_COLUMNS = Object.freeze([
-  "experiment_id", "experiment_version", "session_id", "recorded_at", "trial_index",
+  "experiment_id", "experiment_version", "session_id", "random_seed", "recorded_at", "trial_index",
   "search_type", "set_size", "target_present", "correct_response", "response_key",
-  "correctness", "rt", "timed_out", "repetitions", "response_deadline", "iti",
+  "correctness", "rt", "timed_out", "repetitions", "response_deadline", "iti", "focus_loss_count",
   "browser", "os", "viewport_width", "viewport_height",
 ]);
 

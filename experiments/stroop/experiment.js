@@ -5,9 +5,10 @@ import {
   createStroopCsv,
   summarizeStroop,
 } from "./logic.mjs";
+import { seededRandom } from "../../assets/random.mjs";
 
 const EXPERIMENT_ID = "stroop-manual";
-const EXPERIMENT_VERSION = "1.0.0";
+const EXPERIMENT_VERSION = "1.0.1";
 const Presets = Object.freeze({
   demo: { trialsPerCondition: 6, responseDeadline: 4000, iti: 250 },
   standard: { trialsPerCondition: 20, responseDeadline: 4000, iti: 250 },
@@ -25,6 +26,8 @@ const resultsSection = document.querySelector("#results");
 const setupSections = [...document.querySelectorAll(".lesson-hero, .explanation-panel, .references-panel, .setup-section, #device-warning")];
 
 let experimentRunning = false;
+let mainPhaseActive = false;
+let focusLossCount = 0;
 let sessionId = "";
 let lastConfig = null;
 let lastRows = [];
@@ -73,7 +76,7 @@ function updatePreview() {
 
 function applyDefaults() {
   document.querySelector("input[name='preset'][value='demo']").checked = true;
-  document.querySelector("#block-order").value = "control-first";
+  document.querySelector("#block-order").value = "mixed";
   document.querySelector("#trials-per-condition").value = Presets.demo.trialsPerCondition;
   document.querySelector("#response-deadline").value = Presets.demo.responseDeadline;
   document.querySelector("#iti").value = Presets.demo.iti;
@@ -160,9 +163,9 @@ function instructionTrial(phase, title, text) {
   };
 }
 
-function createTimeline(config) {
-  const practice = buildStroopTrials({ trialsPerCondition: 2, blockOrder: "mixed" });
-  const main = buildStroopTrials(config);
+function createTimeline(config, random) {
+  const practice = buildStroopTrials({ trialsPerCondition: 2, blockOrder: "mixed", random });
+  const main = buildStroopTrials({ ...config, random });
   const makeTrial = (trial, index, phase, total, feedback) => ({
     type: StroopKeyboardPlugin,
     stimulus_text: trial.stimulusText,
@@ -179,6 +182,7 @@ function createTimeline(config) {
       experiment_id: EXPERIMENT_ID,
       experiment_version: EXPERIMENT_VERSION,
       session_id: sessionId,
+      random_seed: sessionId,
       recorded_at: new Date().toISOString(),
       trial_index: trial.trialIndex,
       condition_trial_index: trial.conditionTrialIndex,
@@ -200,9 +204,9 @@ function createTimeline(config) {
     },
     instructionTrial("PRACTICE", "まず4試行を練習します", "画面の文字が表す色ではなく、インクの色に対応する数字キーを押してください。練習では正誤を表示します。"),
     ...practice.map((trial, index) => makeTrial(trial, index, "practice", practice.length, true)),
-    instructionTrial("MAIN SESSION", `本試行${main.length}回を始めます`, "本試行では正誤を表示しません。できるだけ速く、正確に回答してください。"),
+    { ...instructionTrial("MAIN SESSION", `本試行${main.length}回を始めます`, "本試行では正誤を表示しません。できるだけ速く、正確に回答してください。"), on_finish: () => { mainPhaseActive = true; } },
     ...main.map((trial, index) => makeTrial(trial, index, "main", main.length, false)),
-    { type: window.jsPsychHtmlKeyboardResponse, stimulus: '<div class="instruction-screen"><p class="phase-label">COMPLETE</p><h2>すべての試行が終わりました</h2><p>結果を集計しています。</p></div>', choices: "NO_KEYS", trial_duration: 400 },
+    { type: window.jsPsychHtmlKeyboardResponse, stimulus: '<div class="instruction-screen"><p class="phase-label">COMPLETE</p><h2>すべての試行が終わりました</h2><p>結果を集計しています。</p></div>', choices: "NO_KEYS", trial_duration: 400, on_start: () => { mainPhaseActive = false; } },
   ];
 }
 
@@ -211,6 +215,7 @@ function toExportRows(rawRows, environment) {
     experiment_id: row.experiment_id,
     experiment_version: row.experiment_version,
     session_id: row.session_id,
+    random_seed: row.random_seed,
     recorded_at: row.recorded_at,
     trial_index: row.trial_index,
     condition_trial_index: row.condition_trial_index,
@@ -226,6 +231,7 @@ function toExportRows(rawRows, environment) {
     trials_per_condition: row.trials_per_condition,
     response_deadline: row.response_deadline,
     iti: row.iti,
+    focus_loss_count: focusLossCount,
     browser: environment.browser,
     os: environment.os,
     viewport_width: environment.width,
@@ -247,6 +253,7 @@ function drawRtChart(summary) {
 
 function showResults(jsPsych) {
   experimentRunning = false;
+  mainPhaseActive = false;
   runner.hidden = true;
   const environment = jsPsych.data.get().filter({ phase: "environment" }).values()[0] || {};
   lastRows = toExportRows(jsPsych.data.get().filter({ phase: "main" }).values(), environment);
@@ -255,6 +262,7 @@ function showResults(jsPsych) {
   document.querySelector("#interference-summary").textContent = summary.interferenceMs === null
     ? "反応時間による干渉量は、各条件に正答試行がないため算出できません。"
     : `反応時間による干渉量：${summary.interferenceMs >= 0 ? "+" : ""}${summary.interferenceMs.toFixed(0)} ms（不一致 − 統制）`;
+  document.querySelector("#interference-summary").textContent += `／本試行中のフォーカス喪失 ${focusLossCount}回`;
   drawRtChart(summary);
   resultsSection.hidden = false;
   resultsSection.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -263,13 +271,15 @@ function showResults(jsPsych) {
 function startExperiment(config) {
   lastConfig = structuredClone(config);
   sessionId = createSessionId();
+  focusLossCount = 0;
+  mainPhaseActive = false;
   resultsSection.hidden = true;
   setupSections.forEach((section) => { section.hidden = true; });
   runner.hidden = false;
   experimentRunning = true;
   window.scrollTo({ top: 0, behavior: "instant" });
   const jsPsych = window.initJsPsych({ display_element: "jspsych-target", on_finish: () => showResults(jsPsych) });
-  jsPsych.run(createTimeline(config));
+  jsPsych.run(createTimeline(config, seededRandom(sessionId)));
 }
 
 function downloadCsv() {
@@ -314,6 +324,7 @@ window.addEventListener("beforeunload", (event) => {
   event.preventDefault();
   event.returnValue = "";
 });
+window.addEventListener("blur", () => { if (experimentRunning && mainPhaseActive) focusLossCount += 1; });
 
 const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.matchMedia("(max-width: 700px) and (pointer: coarse)").matches;
 if (isMobile) {

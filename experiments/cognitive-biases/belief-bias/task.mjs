@@ -1,11 +1,23 @@
 import { buildSyllogismSequence, scoreSyllogism } from "../logic.mjs";
 import { createTaskSession, downloadRowsCsv } from "../shared.mjs";
+import { seededRandom } from "../../../assets/random.mjs";
 
 let items = [];
 let index = 0;
 let responses = [];
 let startedAt = 0;
 let session;
+
+const designNote = document.createElement("aside");
+designNote.className = "method-notes";
+designNote.innerHTML = `
+  <div>
+    <p class="eyebrow">INTERPRETATION NOTE</p>
+    <h2>教材用項目としての範囲</h2>
+  </div>
+  <p>8問は論理的妥当性と結論の信じやすさの4条件を各2問含みます。ただし、三段論法の図式、量化表現、語彙などを条件間で厳密に対応させた刺激セットではありません。このページの成績は授業内の振り返りに用い、条件差を信念バイアスの効果量として扱わないでください。</p>
+`;
+document.querySelector("#theory .explanation-content")?.append(designNote);
 
 function renderItem() {
   const item = items[index];
@@ -17,10 +29,10 @@ function renderItem() {
 }
 
 function start() {
-  items = buildSyllogismSequence();
+  session = createTaskSession("belief-bias", "1.2.0");
+  items = buildSyllogismSequence(seededRandom(session.session_id));
   index = 0;
   responses = [];
-  session = createTaskSession("belief-bias", "1.1.0");
   document.querySelector("#question").hidden = false;
   renderItem();
   document.querySelector("#question").scrollIntoView({ behavior: "smooth", block: "start" });

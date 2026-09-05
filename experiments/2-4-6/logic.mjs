@@ -1,8 +1,8 @@
 export const TWO_FOUR_SIX_CSV_COLUMNS = Object.freeze([
   "experiment_id", "experiment_version", "session_id", "recorded_at", "test_index",
-  "number_1", "number_2", "number_3", "conforms", "test_rt", "initial_hypothesis",
+  "number_1", "number_2", "number_3", "predicted_conforms", "conforms", "prediction_correct", "test_rt", "initial_hypothesis",
   "final_hypothesis", "self_evaluation", "total_tests", "conforming_tests",
-  "nonconforming_tests", "max_tests", "task_rt", "browser", "os", "viewport_width",
+  "nonconforming_tests", "max_tests", "prior_familiarity", "task_rt", "browser", "os", "viewport_width",
   "viewport_height",
 ]);
 

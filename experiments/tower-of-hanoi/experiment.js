@@ -9,7 +9,7 @@ import {
 } from "./logic.mjs";
 
 const EXPERIMENT_ID = "tower-of-hanoi";
-const EXPERIMENT_VERSION = "1.0.0";
+const EXPERIMENT_VERSION = "1.0.1";
 const Presets = Object.freeze({ demo: { diskCount: 3, timeLimitMinutes: 3 }, standard: { diskCount: 4, timeLimitMinutes: 5 }, advanced: { diskCount: 5, timeLimitMinutes: 10 } });
 const pegLabels = ["左", "中央", "右"];
 const form = document.querySelector("#config-form");
@@ -78,11 +78,12 @@ class TowerOfHanoiPlugin {
       attemptIndex += 1;
       events.push({ runIndex, attemptIndex, sourcePeg, targetPeg, disk, legalMove: legal ? 1 : 0, errorReason: reason, elapsedMs: elapsed(), stateAfter: JSON.stringify(state) });
     };
+    let completedElapsed = null;
     const finish = (completed) => {
       if (finished) return;
       finished = true;
       window.clearTimeout(timeoutId);
-      this.jsPsych.finishTrial({ move_events: events, completed, legal_moves: legalMoves, illegal_attempts: illegalAttempts, elapsed_ms: elapsed(), restart_count: restartCount });
+      this.jsPsych.finishTrial({ move_events: events, completed, legal_moves: legalMoves, illegal_attempts: illegalAttempts, elapsed_ms: completedElapsed ?? elapsed(), restart_count: restartCount });
     };
     const clickPeg = (peg) => {
       if (selectedPeg === null) {
@@ -118,6 +119,7 @@ class TowerOfHanoiPlugin {
       selectedPeg = null;
       render();
       if (isSolved(state, trial.goal_peg, trial.disk_count)) {
+        completedElapsed = elapsed();
         status.textContent = `完成です。${legalMoves}手で移動しました。`;
         board.querySelectorAll("button").forEach((button) => { button.disabled = true; });
         window.setTimeout(() => finish(true), 700);

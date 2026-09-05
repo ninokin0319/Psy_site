@@ -5,9 +5,10 @@ import {
   createSessionId,
   summarizeSearch,
 } from "./logic.mjs";
+import { seededRandom } from "../../assets/random.mjs";
 
 const EXPERIMENT_ID = "visual-search";
-const EXPERIMENT_VERSION = "1.0.0";
+const EXPERIMENT_VERSION = "1.1.0";
 const CANVAS_SIZE = 600;
 const Presets = Object.freeze({ demo: 1, standard: 5, precision: 10 });
 const form = document.querySelector("#config-form");
@@ -18,6 +19,8 @@ const setupSections = [...document.querySelectorAll(".lesson-hero, .explanation-
 
 let sessionId = "";
 let experimentRunning = false;
+let mainPhaseActive = false;
+let focusLossCount = 0;
 let lastConfig = null;
 let lastRows = [];
 
@@ -164,13 +167,13 @@ function instructionTrial(phase, title, text) {
   return { type: window.jsPsychHtmlKeyboardResponse, stimulus: `<div class="instruction-screen"><p class="phase-label">${phase}</p><h2>${title}</h2><p>${text}</p><div class="key-guide"><kbd>→</kbd> あり　 <kbd>←</kbd> なし</div><p><kbd>Space</kbd> を押すと進みます。</p></div>`, choices: [" "] };
 }
 
-function createTimeline(config) {
+function createTimeline(config, random) {
   const practiceConfig = { searchTypes: config.searchTypes, setSizes: [8], repetitions: 1 };
-  const practice = buildSearchTrials(practiceConfig);
-  const main = buildSearchTrials(config);
+  const practice = buildSearchTrials({ ...practiceConfig, random });
+  const main = buildSearchTrials({ ...config, random });
   const makeTrial = (trial, index, phase, total, feedback) => ({
     type: VisualSearchPlugin,
-    items: buildStimulusItems(trial),
+    items: buildStimulusItems(trial, random),
     correct_response: trial.targetPresent ? "ArrowRight" : "ArrowLeft",
     response_deadline: config.responseDeadline,
     feedback,
@@ -179,7 +182,7 @@ function createTimeline(config) {
     total_trials: total,
     post_trial_gap: phase === "main" ? config.iti : 0,
     data: phase === "main" ? {
-      phase, experiment_id: EXPERIMENT_ID, experiment_version: EXPERIMENT_VERSION, session_id: sessionId,
+      phase, experiment_id: EXPERIMENT_ID, experiment_version: EXPERIMENT_VERSION, session_id: sessionId, random_seed: sessionId,
       recorded_at: new Date().toISOString(), trial_index: trial.trialIndex, search_type: trial.searchType,
       set_size: trial.setSize, target_present: trial.targetPresent, repetitions: config.repetitions,
       response_deadline: config.responseDeadline, iti: config.iti,
@@ -189,19 +192,19 @@ function createTimeline(config) {
     { type: window.jsPsychBrowserCheck, features: ["width", "height", "browser", "browser_version", "mobile", "os"], data: { phase: "environment" } },
     instructionTrial("PRACTICE", `まず${practice.length}試行を練習します`, "赤い右下がり線があれば右矢印、なければ左矢印を押してください。練習では正誤を表示します。"),
     ...practice.map((trial, index) => makeTrial(trial, index, "practice", practice.length, true)),
-    instructionTrial("MAIN SESSION", `本試行${main.length}回を始めます`, "本試行では正誤を表示しません。できるだけ速く、正確に回答してください。"),
+    { ...instructionTrial("MAIN SESSION", `本試行${main.length}回を始めます`, "本試行では正誤を表示しません。できるだけ速く、正確に回答してください。"), on_finish: () => { mainPhaseActive = true; } },
     ...main.map((trial, index) => makeTrial(trial, index, "main", main.length, false)),
-    { type: window.jsPsychHtmlKeyboardResponse, stimulus: '<div class="instruction-screen"><p class="phase-label">COMPLETE</p><h2>すべての試行が終わりました</h2><p>結果を集計しています。</p></div>', choices: "NO_KEYS", trial_duration: 400 },
+    { type: window.jsPsychHtmlKeyboardResponse, stimulus: '<div class="instruction-screen"><p class="phase-label">COMPLETE</p><h2>すべての試行が終わりました</h2><p>結果を集計しています。</p></div>', choices: "NO_KEYS", trial_duration: 400, on_start: () => { mainPhaseActive = false; } },
   ];
 }
 
 function toExportRows(rawRows, environment) {
   return rawRows.map((row) => ({
-    experiment_id: row.experiment_id, experiment_version: row.experiment_version, session_id: row.session_id,
+    experiment_id: row.experiment_id, experiment_version: row.experiment_version, session_id: row.session_id, random_seed: row.random_seed,
     recorded_at: row.recorded_at, trial_index: row.trial_index, search_type: row.search_type, set_size: row.set_size,
     target_present: row.target_present, correct_response: row.correct_response, response_key: row.response_key,
     correctness: row.correctness, rt: row.rt, timed_out: row.timed_out, repetitions: row.repetitions,
-    response_deadline: row.response_deadline, iti: row.iti, browser: environment.browser, os: environment.os,
+    response_deadline: row.response_deadline, iti: row.iti, focus_loss_count: focusLossCount, browser: environment.browser, os: environment.os,
     viewport_width: environment.width, viewport_height: environment.height,
   }));
 }
@@ -245,6 +248,7 @@ function drawResultChart(summary) {
 
 function showResults(jsPsych) {
   experimentRunning = false;
+  mainPhaseActive = false;
   runner.hidden = true;
   const environment = jsPsych.data.get().filter({ phase: "environment" }).values()[0] || {};
   lastRows = toExportRows(jsPsych.data.get().filter({ phase: "main" }).values(), environment);
@@ -254,6 +258,17 @@ function showResults(jsPsych) {
     const accuracy = rows.length === 0 ? null : rows.filter((row) => Number(row.correctness) === 1).length / rows.length;
     return `<tr><td>${typeLabel(item.searchType)}</td><td>${targetLabel(item.targetPresent)}</td><td>${item.slope === null ? "—" : `${item.slope.toFixed(1)} ms/項目`}</td><td>${accuracy === null ? "—" : `${(accuracy * 100).toFixed(1)}%`}</td></tr>`;
   }).join("");
+  let qualityNote = document.querySelector("#search-quality-note");
+  if (!qualityNote) {
+    qualityNote = document.createElement("p");
+    qualityNote.id = "search-quality-note";
+    qualityNote.className = "result-highlight";
+    resultsSection.querySelector(".results-grid").before(qualityNote);
+  }
+  qualityNote.textContent = lastConfig.repetitions < 3
+    ? `各条件${lastConfig.repetitions}試行のため、この傾きは構造理解用の記述値です。安定した比較には反復数を増やしてください。`
+    : `各条件${lastConfig.repetitions}試行の正答反応から傾きを計算しました。正答率と併せて解釈してください。`;
+  qualityNote.textContent += ` 本試行中のフォーカス喪失：${focusLossCount}回。`;
   drawResultChart(summary);
   resultsSection.hidden = false;
   resultsSection.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -262,13 +277,15 @@ function showResults(jsPsych) {
 function startExperiment(config) {
   lastConfig = structuredClone(config);
   sessionId = createSessionId();
+  focusLossCount = 0;
+  mainPhaseActive = false;
   resultsSection.hidden = true;
   setupSections.forEach((section) => { section.hidden = true; });
   runner.hidden = false;
   experimentRunning = true;
   window.scrollTo({ top: 0, behavior: "instant" });
   const jsPsych = window.initJsPsych({ display_element: "jspsych-target", on_finish: () => showResults(jsPsych) });
-  jsPsych.run(createTimeline(config));
+  jsPsych.run(createTimeline(config, seededRandom(sessionId)));
 }
 
 function downloadCsv() {
@@ -290,6 +307,7 @@ document.querySelector("#download-csv").addEventListener("click", downloadCsv);
 document.querySelector("#retry-same").addEventListener("click", () => startExperiment(lastConfig));
 document.querySelector("#change-settings").addEventListener("click", () => { resultsSection.hidden = true; setupSections.forEach((section) => { section.hidden = false; }); document.querySelector("#setup").scrollIntoView({ behavior: "smooth" }); });
 window.addEventListener("beforeunload", (event) => { if (!experimentRunning) return; event.preventDefault(); event.returnValue = ""; });
+window.addEventListener("blur", () => { if (experimentRunning && mainPhaseActive) focusLossCount += 1; });
 const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.matchMedia("(max-width: 700px) and (pointer: coarse)").matches;
 if (isMobile) { document.querySelector("#device-warning").hidden = false; document.querySelector("#start-experiment").disabled = true; }
 updatePreview();

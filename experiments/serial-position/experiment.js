@@ -5,9 +5,10 @@ import {
   scoreRecall,
   summarizeSerialPosition,
 } from "./logic.mjs";
+import { seededRandom } from "../../assets/random.mjs";
 
 const EXPERIMENT_ID = "serial-position-free-recall";
-const EXPERIMENT_VERSION = "1.0.0";
+const EXPERIMENT_VERSION = "1.1.0";
 const Presets = Object.freeze({
   demo: { listLength: 10, listCount: 2, stimulusDuration: 1200, intervalDuration: 500, recallDeadline: 45 },
   standard: { listLength: 10, listCount: 4, stimulusDuration: 3000, intervalDuration: 1000, recallDeadline: 60 },
@@ -128,7 +129,7 @@ function toExportRows(recallTrials, environment) {
   return lastLists.flatMap((list) => {
     const recallTrial = recallTrials.find((trial) => Number(trial.list_index) === list.listIndex) || {};
     return scoreRecall(list, recallTrial.response_text).map((score) => ({
-      experiment_id: EXPERIMENT_ID, experiment_version: EXPERIMENT_VERSION, session_id: sessionId, recorded_at: recordedAt,
+      experiment_id: EXPERIMENT_ID, experiment_version: EXPERIMENT_VERSION, session_id: sessionId, random_seed: sessionId, recorded_at: recordedAt,
       list_index: score.listIndex, serial_position: score.serialPosition, item: score.item, recalled: score.recalled,
       recall_order: score.recallOrder, response_count: score.responseCount, recall_rt: recallTrial.recall_rt,
       list_length: lastConfig.listLength, list_count: lastConfig.listCount, stimulus_duration: lastConfig.stimulusDuration,
@@ -170,7 +171,7 @@ function showResults(jsPsych) {
 }
 
 function startExperiment(config) {
-  lastConfig = structuredClone(config); sessionId = createSessionId(); lastLists = buildSerialLists(config);
+  lastConfig = structuredClone(config); sessionId = createSessionId(); lastLists = buildSerialLists({ ...config, random: seededRandom(sessionId) });
   resultsSection.hidden = true; setupSections.forEach((section) => { section.hidden = true; }); runner.hidden = false; experimentRunning = true;
   window.scrollTo({ top: 0, behavior: "instant" });
   const jsPsych = window.initJsPsych({ display_element: "jspsych-target", on_finish: () => showResults(jsPsych) });

@@ -1,7 +1,23 @@
-const KANA = Object.freeze(["ア", "イ", "ウ", "エ", "オ", "カ", "キ", "ク", "ケ", "コ", "サ", "シ", "ス", "セ", "ソ", "タ", "チ", "ツ", "テ", "ト", "ナ", "ニ", "ヌ", "ネ", "ノ", "ハ", "ヒ", "フ", "ヘ", "ホ", "マ", "ミ", "ム", "メ", "モ", "ヤ", "ユ", "ヨ", "ラ", "リ", "ル", "レ", "ロ", "ワ"]);
+// 授業で点検しやすいよう、刺激候補を生成規則ではなく固定リストにする。
+// 冒頭25項目はキソジオンラインの例を参照し、明らかな日常語は追加候補から避けた。
+const ITEM_POOL = Object.freeze([
+  "ルケ", "ニロ", "コハ", "エレ", "ヌテ", "アタ", "モセ", "クナ", "サウ", "ヤハ",
+  "ワモ", "ロニ", "ヒハ", "ケネ", "ツソ", "ヘク", "サヌ", "イメ", "リテ", "ムヨ",
+  "モヘ", "ユフ", "カヒ", "ラミ", "エホ", "ヌヘ", "ヘヌ", "ムヘ", "ヘム", "ヌコ",
+  "ヌサ", "ヌチ", "ヌネ", "ヌホ", "ヌミ", "ヌヤ", "ヌレ", "ヌワ", "ヘカ", "ヘキ",
+  "ヘコ", "ヘサ", "ヘシ", "ヘソ", "ヘチ", "ヘナ", "ヘニ", "ヘノ", "ヘマ", "ヘミ",
+  "ヘモ", "ヘヤ", "ヘユ", "ヘヨ", "ヘラ", "ヘリ", "ヘレ", "ヘロ", "ヘワ", "ケヌ",
+  "ケヘ", "ケモ", "ケユ", "ケレ", "ケワ", "セヌ", "セヘ", "セモ", "セユ", "セレ",
+  "セワ", "テヌ", "テヘ", "テモ", "テユ", "テレ", "テワ", "ネヌ", "ネヘ", "ネモ",
+  "ネユ", "ネレ", "ネワ", "メヌ", "メヘ", "メモ", "メユ", "メレ", "メワ", "ロヌ",
+  "ロヘ", "ロモ", "ロユ", "ロレ", "ロワ", "ヨヌ", "ヨヘ", "ヨモ", "ヨユ", "ヨレ",
+  "ヨワ", "ユヌ", "ユヘ", "ユモ", "ユヨ", "ユレ", "ユワ", "リヌ", "リヘ", "リモ",
+  "リユ", "リワ", "ラヌ", "ラヘ", "ラモ", "ラユ", "ラレ", "ラワ", "モヌ", "モユ",
+  "モレ", "モワ", "ワヌ", "ワヘ", "ワユ",
+]);
 
 export const SERIAL_CSV_COLUMNS = Object.freeze([
-  "experiment_id", "experiment_version", "session_id", "recorded_at", "list_index",
+  "experiment_id", "experiment_version", "session_id", "random_seed", "recorded_at", "list_index",
   "serial_position", "item", "recalled", "recall_order", "response_count", "recall_rt",
   "list_length", "list_count", "stimulus_duration", "interval_duration", "recall_deadline",
   "browser", "os", "viewport_width", "viewport_height",
@@ -17,17 +33,12 @@ export function shuffle(items, random = Math.random) {
 }
 
 export function createNonwordPool() {
-  const pool = [];
-  for (let first = 0; first < KANA.length; first += 1) {
-    for (let second = 0; second < KANA.length; second += 1) {
-      if (first !== second) pool.push(`${KANA[first]}${KANA[second]}`);
-    }
-  }
-  return pool;
+  return [...ITEM_POOL];
 }
 
 export function buildSerialLists({ listLength, listCount, random = Math.random }) {
   const needed = listLength * listCount;
+  if (needed > ITEM_POOL.length) throw new RangeError(`必要な${needed}項目に対して刺激候補が不足しています。`);
   const selected = shuffle(createNonwordPool(), random).slice(0, needed);
   return Array.from({ length: listCount }, (_, listIndex) => ({
     listIndex: listIndex + 1,

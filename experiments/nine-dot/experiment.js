@@ -7,7 +7,7 @@ import {
 } from "./logic.mjs";
 
 const EXPERIMENT_ID = "nine-dot-problem";
-const EXPERIMENT_VERSION = "1.0.0";
+const EXPERIMENT_VERSION = "1.1.0";
 const Presets = Object.freeze({ demo: { maxAttempts: 3, timeLimit: 120 }, standard: { maxAttempts: 5, timeLimit: 300 }, extended: { maxAttempts: 8, timeLimit: 600 } });
 const form = document.querySelector("#config-form");
 const errors = document.querySelector("#config-errors");
@@ -23,7 +23,7 @@ let lastRows = [];
 
 function readConfig() {
   const data = new FormData(form);
-  return { preset: String(data.get("preset")), maxAttempts: Number(data.get("maxAttempts")), timeLimit: Number(data.get("timeLimit")) };
+  return { preset: String(data.get("preset")), maxAttempts: Number(data.get("maxAttempts")), timeLimit: Number(data.get("timeLimit")), priorFamiliarity: String(data.get("priorFamiliarity")) };
 }
 
 function validateConfig(config) {
@@ -44,6 +44,7 @@ function updatePreview() {
 
 function applyDefaults() {
   document.querySelector("input[name='preset'][value='demo']").checked = true;
+  document.querySelector("input[name='priorFamiliarity'][value='unknown']").checked = true;
   for (const [key, value] of Object.entries(Presets.demo)) document.querySelector(`#${key.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)}`).value = value;
   updatePreview();
 }
@@ -134,7 +135,7 @@ function toExportRows(result, environment) {
     experiment_id: EXPERIMENT_ID, experiment_version: EXPERIMENT_VERSION, session_id: sessionId, recorded_at: recordedAt,
     attempt_index: attempt.index, segment_count: attempt.segmentCount, covered_dots: attempt.coveredDots, success: attempt.success ? 1 : 0,
     timed_out: attempt.timedOut ? 1 : 0, path_json: JSON.stringify(attempt.path), attempt_rt: attempt.attemptRt, total_rt: result.total_rt,
-    insight_rating: result.insight_rating, max_attempts: lastConfig.maxAttempts, time_limit: lastConfig.timeLimit,
+    insight_rating: result.insight_rating, max_attempts: lastConfig.maxAttempts, time_limit: lastConfig.timeLimit, prior_familiarity: lastConfig.priorFamiliarity,
     browser: environment.browser, os: environment.os, viewport_width: environment.width, viewport_height: environment.height,
   }));
 }
@@ -161,6 +162,10 @@ function downloadCsv() {
   const blob = new Blob([createNineDotCsv(lastRows)], { type: "text/csv;charset=utf-8" }); const url = URL.createObjectURL(blob); const link = document.createElement("a");
   link.href = url; link.download = `nine-dot_${new Date().toISOString().replaceAll(":", "-")}_${sessionId}.csv`; document.body.append(link); link.click(); link.remove(); window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
+
+const familiarityField = document.createElement("fieldset");
+familiarityField.innerHTML = '<legend>事前知識</legend><div class="preset-group"><label><input type="radio" name="priorFamiliarity" value="unknown" checked><span><strong>初めて取り組む</strong><small>解法を知らない／確かではない</small></span></label><label><input type="radio" name="priorFamiliarity" value="known"><span><strong>以前に経験した</strong><small>解法を知っている</small></span></label></div>';
+form.querySelector(".field-grid").after(familiarityField);
 
 form.addEventListener("input", updatePreview);
 form.addEventListener("change", (event) => { if (event.target.name === "preset") { const preset = Presets[event.target.value]; for (const [key, value] of Object.entries(preset)) document.querySelector(`#${key.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)}`).value = value; } updatePreview(); });

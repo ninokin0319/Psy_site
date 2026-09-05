@@ -1,5 +1,5 @@
 export const CSV_COLUMNS = [
-  "experiment_id", "experiment_version", "session_id", "recorded_at",
+  "experiment_id", "experiment_version", "session_id", "random_seed", "recorded_at",
   "trial_index", "condition_order", "wing_angle", "standard_length",
   "wing_direction", "wing_smaller_angle", "wing_length",
   "initial_comparison_length", "step_size",

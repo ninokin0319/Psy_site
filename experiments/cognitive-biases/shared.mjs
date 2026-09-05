@@ -1,7 +1,8 @@
 import { createRowsCsv, createSessionId, createSingleRowCsv } from "./logic.mjs";
 
 export function createTaskSession(taskId, version = "1.0.0") {
-  return { experiment_id: taskId, experiment_version: version, session_id: createSessionId(), recorded_at: new Date().toISOString() };
+  const sessionId = createSessionId();
+  return { experiment_id: taskId, experiment_version: version, session_id: sessionId, random_seed: sessionId, recorded_at: new Date().toISOString() };
 }
 
 export function revealQuestion() {

@@ -36,7 +36,7 @@ export const WASON_SCENARIOS = Object.freeze({
     explanation: "Eは裏が奇数なら反例になり、7は裏が母音なら反例になります。4とKは、規則が述べていない向きの情報です。",
   },
   drinking: {
-    id: "drinking", title: "飲酒年齢問題", source: "Griggs & Cox (1982)", context: "飲み物と年齢がカードの両面に書かれています。酒場で次の規則への違反を調べます。", rule: "ビールを飲んでいる人は、20歳を超えていなければならない。",
+    id: "drinking", title: "飲酒年齢問題", source: "Griggs & Cox (1982)", context: "飲み物と年齢がカードの両面に書かれています。酒場で次の規則への違反を調べます。", rule: "ビールを飲んでいる人は、20歳以上でなければならない。",
     cards: [{ id: "beer", label: "ビール", role: "P" }, { id: "cola", label: "コーラ", role: "not-P" }, { id: "25", label: "25歳", role: "Q" }, { id: "16", label: "16歳", role: "not-Q" }], correct: ["beer", "16"],
     explanation: "ビールを飲む人の年齢と、16歳の人の飲み物を確認します。身近な規則と違反者を探す文脈が、必要な2枚を明確にします。",
   },
@@ -52,7 +52,13 @@ export const WASON_SCENARIOS = Object.freeze({
   },
 });
 
-export function getWasonScenario(id) { return WASON_SCENARIOS[id] ?? WASON_SCENARIOS.abstract; }
+export function getWasonScenario(id, random = Math.random) {
+  if (id === "random") {
+    const scenarios = Object.values(WASON_SCENARIOS);
+    return scenarios[Math.floor(random() * scenarios.length)];
+  }
+  return WASON_SCENARIOS[id] ?? WASON_SCENARIOS.abstract;
+}
 export function scoreWason(selected, scenarioId = "abstract") {
   const expected = [...getWasonScenario(scenarioId).correct].sort();
   const normalized = [...new Set(selected)].sort();

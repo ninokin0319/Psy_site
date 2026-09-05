@@ -230,6 +230,17 @@ h3 { font-size: var(--font-h3); }
   transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
 }
 
+.domain-label {
+  width: fit-content;
+  margin: 0;
+  padding: .12rem .5rem;
+  border: 1px solid var(--line);
+  color: var(--green);
+  font-size: var(--font-xs);
+  font-weight: 800;
+  letter-spacing: .06em;
+}
+
 .experiment-card.featured { border-top: 5px solid var(--green); }
 .experiment-card.muted { background: rgba(255, 253, 247, .55); }
 

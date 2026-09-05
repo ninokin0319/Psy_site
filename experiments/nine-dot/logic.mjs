@@ -1,7 +1,7 @@
 export const NINE_DOT_CSV_COLUMNS = Object.freeze([
   "experiment_id", "experiment_version", "session_id", "recorded_at", "attempt_index",
   "segment_count", "covered_dots", "success", "timed_out", "path_json", "attempt_rt",
-  "total_rt", "insight_rating", "max_attempts", "time_limit", "browser", "os",
+  "total_rt", "insight_rating", "max_attempts", "time_limit", "prior_familiarity", "browser", "os",
   "viewport_width", "viewport_height",
 ]);
 

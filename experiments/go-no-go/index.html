@@ -28,19 +28,20 @@
         <dl class="lesson-meta"><div><dt>測定指標</dt><dd>誤反応・見逃し・反応時間</dd></div><div><dt>所要時間</dt><dd>約2–8分</dd></div><div><dt>推奨環境</dt><dd>キーボード付きPC</dd></div></dl>
       </section>
 
-      <details class="explanation-panel" id="theory">
+      <details class="explanation-panel" id="theory" data-debrief>
         <summary><span><strong>背景・仮説・実験計画を読む</strong><small>反応の実行と抑制、Go比率が成績に与える影響を確認できます。</small></span></summary>
         <div class="explanation-content">
           <section class="learning-grid" aria-label="背景と方法">
             <article><p class="eyebrow">BACKGROUND</p><h2>背景</h2><p>Go/No-go課題では、Go刺激に対して決められた反応を行い、No-go刺激に対してその反応を行わないことが求められます。Go刺激が多いと反応を繰り返す傾向が形成され、まれなNo-go刺激で反応を控える必要が生じます。</p></article>
             <article><p class="eyebrow">HYPOTHESIS</p><h2>仮説</h2><p>Go刺激の割合を高くすると、Go反応が速くなる一方、No-go試行で誤って押す割合が増える可能性があります。ただし、参加者が正確さを優先するか速さを優先するかによって結果は変わります。</p></article>
-            <article><p class="eyebrow">DESIGN &amp; PROCEDURE</p><h2>実験計画と手続き</h2><p>各試行で円または四角を提示します。Go図形にはSpaceキーを1回押し、No-go図形には反応しません。設定したGo比率から各条件の試行数を先に確定し、その後に提示順だけを無作為化します。練習では正誤、本試行では正誤を表示しません。</p></article>
+            <article><p class="eyebrow">DESIGN &amp; PROCEDURE</p><h2>実験計画と手続き</h2><p>各試行で円または四角を提示します。Go図形にはSpaceキーを1回押し、No-go図形には反応しません。設定したGo比率から各条件の試行数を先に確定し、No-goが連続しない範囲で提示間隔を無作為化します。練習では正誤、本試行では正誤を表示しません。</p></article>
             <article><p class="eyebrow">MEASURES</p><h2>指標と解釈</h2><p>No-go試行で押した反応を<strong>誤反応（commission error）</strong>、Go試行で押さなかった反応を<strong>見逃し（omission error）</strong>として集計します。正しく押したGo試行について、刺激描画後から最初のSpace反応までの時間も求めます。</p></article>
           </section>
           <aside class="method-notes"><div><p class="eyebrow">MEASUREMENT NOTES</p><h2>測定上の注意</h2></div><ul>
             <li>誤反応率は、単独で個人の「抑制能力」や衝動性を診断する値ではありません。刺激の識別、持続的注意、Go比率、提示間隔、速度と正確さの方略も影響します。</li>
             <li>ブラウザ、ディスプレイ、キーボードによる遅延を厳密に校正していません。授業内の条件比較に用い、研究用測定には別途妥当性検証が必要です。</li>
             <li>刺激は描画が反映されるよう2回の画面更新を待ってから時間計測を始め、キーの押しっぱなしによる反復入力は記録しません。</li>
+            <li>短時間デモの既定値ではNo-goが6試行だけです。個人差や誤反応率を安定して推定する用途では、標準実験以上を使用してください。</li>
           </ul></aside>
         </div>
       </details>
@@ -92,7 +93,7 @@
         </div>
         <div class="results-grid"><div class="result-card"><h3>反応分類</h3><div class="table-scroll"><table><thead><tr><th>条件</th><th>試行数</th><th>正反応</th><th>誤り</th><th>正反応率</th></tr></thead><tbody id="summary-body"></tbody></table></div></div>
           <aside class="result-card"><h3>結果を読むときの確認点</h3><ul class="result-checks"><li>Go比率を変えると誤反応率とGo反応時間はどう変わるでしょうか。</li><li>誤反応率だけでなく、Goの見逃し率も併せて速度―正確性の方略を考えます。</li><li id="focus-summary">本試行中のフォーカス喪失：0回</li></ul></aside></div>
-        <details class="data-dictionary"><summary>CSVの主な列</summary><dl><div><dt>condition</dt><dd>go または no-go。</dd></div><div><dt>response_made / correctness</dt><dd>Space反応の有無（1/0）と条件に照らした正誤（1/0）。</dd></div><div><dt>rt</dt><dd>刺激描画後から最初のSpace反応までの時間（ms）。無反応は空欄。</dd></div><div><dt>go_percent / total_trials</dt><dd>設定したGo比率と総試行数。</dd></div><div><dt>focus_loss_count</dt><dd>本試行中にページがフォーカスを失った累積回数。</dd></div></dl></details>
+        <details class="data-dictionary"><summary>CSVの主な列</summary><dl><div><dt>condition</dt><dd>go または no-go。</dd></div><div><dt>previous_condition / condition_run_length</dt><dd>直前試行の条件と、同じ条件が連続した回数。</dd></div><div><dt>response_made / correctness</dt><dd>Space反応の有無（1/0）と条件に照らした正誤（1/0）。</dd></div><div><dt>rt</dt><dd>刺激描画後から最初のSpace反応までの時間（ms）。無反応は空欄。</dd></div><div><dt>go_percent / total_trials</dt><dd>設定したGo比率と総試行数。</dd></div><div><dt>focus_loss_count</dt><dd>本試行中にページがフォーカスを失った累積回数。</dd></div></dl></details>
       </section>
     </main>
 
@@ -100,6 +101,7 @@
     <script src="https://unpkg.com/jspsych@8.3.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.2.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-browser-check@2.1.0"></script>
-    <script type="module" src="experiment.js?v=1.0.1"></script>
+    <script type="module" src="experiment.js?v=1.1.0"></script>
+    <script type="module" src="../../assets/lesson-runtime.mjs?v=1.0.0"></script>
   </body>
 </html>

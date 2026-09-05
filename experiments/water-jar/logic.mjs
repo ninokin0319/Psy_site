@@ -60,6 +60,9 @@ export function classifySolution(coefficients, problem) {
 }
 
 export function buildWaterJarSequence(sequence = "classic") {
+  if (sequence === "control") {
+    return CLASSIC_WATER_JAR_PROBLEMS.filter((problem) => problem.id >= 6).map((problem) => ({ ...problem }));
+  }
   if (sequence === "demo") {
     const selectedIds = new Set([1, 2, 3, 6, 7, 8, 9]);
     return CLASSIC_WATER_JAR_PROBLEMS.filter((problem) => selectedIds.has(problem.id));

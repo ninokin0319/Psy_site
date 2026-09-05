@@ -5,9 +5,10 @@ import {
   scoreGoNoGo,
   summarizeGoNoGo,
 } from "./logic.mjs";
+import { seededRandom } from "../../assets/random.mjs";
 
 const EXPERIMENT_ID = "go-no-go-visual";
-const EXPERIMENT_VERSION = "1.0.1";
+const EXPERIMENT_VERSION = "1.1.0";
 const Presets = Object.freeze({
   demo: { totalTrials: 30, goPercent: 80, stimulusDuration: 250, responseDeadline: 750, iti: 250 },
   standard: { totalTrials: 100, goPercent: 80, stimulusDuration: 250, responseDeadline: 750, iti: 250 },
@@ -175,9 +176,9 @@ function instructionTrial(phase, title, text, extra = "") {
   };
 }
 
-function createTimeline(config) {
-  const practice = buildGoNoGoTrials({ totalTrials: 8, goPercent: 75, goShape: config.goShape });
-  const main = buildGoNoGoTrials(config);
+function createTimeline(config, random) {
+  const practice = buildGoNoGoTrials({ totalTrials: 8, goPercent: 75, goShape: config.goShape, random });
+  const main = buildGoNoGoTrials({ ...config, random });
   const noGoShape = config.goShape === "circle" ? "square" : "circle";
   const makeTrial = (trial, index, phase, total, feedback) => ({
     type: GoNoGoKeyboardPlugin,
@@ -195,10 +196,13 @@ function createTimeline(config) {
       experiment_id: EXPERIMENT_ID,
       experiment_version: EXPERIMENT_VERSION,
       session_id: sessionId,
+      random_seed: sessionId,
       recorded_at: new Date().toISOString(),
       trial_index: trial.trialIndex,
       condition_trial_index: trial.conditionTrialIndex,
       condition: trial.condition,
+      previous_condition: trial.previousCondition,
+      condition_run_length: trial.conditionRunLength,
       stimulus_shape: trial.stimulusShape,
       go_shape: config.goShape,
       go_percent: config.goPercent,
@@ -228,10 +232,13 @@ function toExportRows(rawRows, environment) {
     experiment_id: row.experiment_id,
     experiment_version: row.experiment_version,
     session_id: row.session_id,
+    random_seed: row.random_seed,
     recorded_at: row.recorded_at,
     trial_index: row.trial_index,
     condition_trial_index: row.condition_trial_index,
     condition: row.condition,
+    previous_condition: row.previous_condition,
+    condition_run_length: row.condition_run_length,
     stimulus_shape: row.stimulus_shape,
     go_shape: row.go_shape,
     response_key: row.response_key,
@@ -283,7 +290,7 @@ function startExperiment(config) {
   experimentRunning = true;
   window.scrollTo({ top: 0, behavior: "instant" });
   const jsPsych = window.initJsPsych({ display_element: "jspsych-target", on_finish: () => showResults(jsPsych) });
-  jsPsych.run(createTimeline(config));
+  jsPsych.run(createTimeline(config, seededRandom(sessionId)));
 }
 
 function downloadCsv() {

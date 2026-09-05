@@ -6,9 +6,10 @@ import {
   describeWingAngle,
   summarizeResults,
 } from "./logic.mjs";
+import { seededRandom } from "../../assets/random.mjs";
 
 const EXPERIMENT_ID = "muller-lyer-adjustment";
-const EXPERIMENT_VERSION = "1.3.0";
+const EXPERIMENT_VERSION = "1.3.1";
 const STIMULUS_WIDTH = 600;
 const PREVIEW_HEIGHT = 380;
 const TRIAL_HEIGHT = 470;
@@ -271,8 +272,8 @@ function instructionTrial(phase, title, text) {
   };
 }
 
-function createTimeline(config) {
-  const conditions = buildConditions(config);
+function createTimeline(config, random) {
+  const conditions = buildConditions(config, random);
   const practiceConditions = [
     { wingAngle: config.angles[0], initialComparisonLength: config.initialLengths[0] },
     { wingAngle: config.angles[1], initialComparisonLength: config.initialLengths[1] },
@@ -303,6 +304,7 @@ function createTimeline(config) {
       experiment_id: EXPERIMENT_ID,
       experiment_version: EXPERIMENT_VERSION,
       session_id: sessionId,
+      random_seed: sessionId,
       recorded_at: new Date().toISOString(),
       trial_index: index + 1,
       condition_order: index + 1,
@@ -344,6 +346,7 @@ function toExportRows(rawRows, environment = {}) {
     experiment_id: row.experiment_id,
     experiment_version: row.experiment_version,
     session_id: row.session_id,
+    random_seed: row.random_seed,
     recorded_at: row.recorded_at,
     trial_index: row.trial_index,
     condition_order: row.condition_order,
@@ -455,7 +458,7 @@ function startExperiment(config) {
     display_element: "jspsych-target",
     on_finish: () => showResults(jsPsych),
   });
-  jsPsych.run(createTimeline(config));
+  jsPsych.run(createTimeline(config, seededRandom(sessionId)));
 }
 
 function formatFilename() {

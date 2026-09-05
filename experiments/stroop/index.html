@@ -38,7 +38,7 @@
         </dl>
       </section>
 
-      <details class="explanation-panel" id="theory">
+      <details class="explanation-panel" id="theory" data-debrief>
         <summary><span><strong>背景・仮説・実験計画を読む</strong><small>ストループ干渉と、このサイトでの測定方法を確認できます。</small></span></summary>
         <div class="explanation-content">
           <section class="learning-grid" aria-label="背景と方法">
@@ -63,7 +63,7 @@
               <label><input type="radio" name="preset" value="precision"><span><strong>反復優先</strong><small>各条件40試行</small></span></label>
             </div></fieldset>
             <div class="field-grid">
-              <label>ブロック順序<select id="block-order" name="blockOrder"><option value="control-first">統制 → 不一致</option><option value="incongruent-first">不一致 → 統制</option><option value="mixed">試行ごとに混合</option></select></label>
+              <label>提示順序<select id="block-order" name="blockOrder"><option value="mixed" selected>試行ごとに混合（推奨）</option><option value="control-first">統制 → 不一致</option><option value="incongruent-first">不一致 → 統制</option></select></label>
               <label>条件ごとの試行数<span><input id="trials-per-condition" name="trialsPerCondition" type="number" value="6" min="5" max="60" step="1"> 回</span></label>
               <label>回答制限時間<span><input id="response-deadline" name="responseDeadline" type="number" value="4000" min="1000" max="10000" step="250"> ms</span></label>
               <label>試行間間隔<span><input id="iti" name="iti" type="number" value="250" min="0" max="2000" step="50"> ms</span></label>
@@ -76,7 +76,7 @@
             <div class="stroop-preview"><span id="preview-word" class="stroop-preview-word">あお</span></div>
             <ol class="key-map" aria-label="回答キー"><li><kbd>1</kbd>あか</li><li><kbd>2</kbd>あお</li><li><kbd>3</kbd>きいろ</li><li><kbd>4</kbd>みどり</li><li><kbd>5</kbd>くろ</li></ol>
             <dl class="preview-summary"><div><dt>概算時間</dt><dd id="estimated-time">約3分</dd></div><div><dt>提示方法</dt><dd id="order-summary">統制 → 不一致</dd></div></dl>
-            <p class="preview-note">刺激語ではなく、文字のインク色に対応する数字キーを押します。</p>
+            <p class="preview-note">刺激語ではなく、文字のインク色に対応する数字キーを押します。固定ブロック順は順序効果と条件差が交絡するため、授業で順序効果を扱う場合に限って使用してください。</p>
           </aside>
         </div>
       </section>
@@ -98,6 +98,7 @@
     <script src="https://unpkg.com/jspsych@8.3.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.2.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-browser-check@2.1.0"></script>
-    <script type="module" src="experiment.js?v=1.0.0"></script>
+    <script type="module" src="experiment.js?v=1.0.1"></script>
+    <script type="module" src="../../assets/lesson-runtime.mjs?v=1.0.0"></script>
   </body>
 </html>
