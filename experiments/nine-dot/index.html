@@ -6,10 +6,11 @@
     <meta property="og:title" content="9点問題 | 心理学実験演習サイト"><meta property="og:description" content="問題表象と洞察を体験する授業用ブラウザ課題です。"><meta property="og:type" content="website">
     <title>9点問題 | 心理学実験演習サイト</title>
     <link rel="stylesheet" href="https://unpkg.com/jspsych@8.3.0/css/jspsych.css"><link rel="stylesheet" href="../../assets/site.css"><link rel="stylesheet" href="../../assets/lesson.css"><link rel="stylesheet" href="experiment.css">
-  </head>
-  <body class="lesson-page">
+  <link rel="stylesheet" href="../../assets/usability.css?v=20260909">
+</head>
+  <body class="lesson-page"><a class="skip-link" href="#main-content">本文へ移動</a>
     <header class="site-header compact"><div class="site-header__inner"><a class="brand" href="../../"><span class="brand-mark" aria-hidden="true">Ψ</span><span>心理学実験演習サイト</span></a><nav class="site-nav lesson-nav" aria-label="実験ページナビゲーション"><a href="#overview">概要</a><a href="#theory">詳しい解説</a><a href="#setup">設定</a><a href="../../">← 実験一覧</a></nav></div></header>
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="lesson-hero" id="overview"><div><p class="eyebrow">EXPERIMENT</p><h1>9点問題</h1><p class="lead">3×3に並んだ9つの点を、ペンを離さず4本の直線ですべて通過するように結びます。問題をどう表現し、制約をどう捉えるかを考える古典的な洞察課題です。</p><div class="lesson-hero-actions"><a class="button primary" href="#setup">設定へ進む</a><a class="text-link" href="#theory">背景と方法を読む ↓</a></div></div><dl class="lesson-meta"><div><dt>課題</dt><dd>洞察問題解決</dd></div><div><dt>測定指標</dt><dd>解答経路・時間・自己評定</dd></div><div><dt>推奨環境</dt><dd>マウス付きPC</dd></div></dl></section>
 
       <details class="explanation-panel" id="theory"><summary><span><strong>背景・仮説・実験計画を読む</strong><small>洞察、問題表象、制約緩和と測定上の注意を確認できます。</small></span></summary><div class="explanation-content"><section class="learning-grid" aria-label="背景と方法">
@@ -29,6 +30,6 @@
       <section id="results" class="results-section" hidden aria-labelledby="results-title"><div class="results-heading"><div><p class="eyebrow">RESULTS</p><h2 id="results-title">課題結果</h2><p>解答経路と主観的なひらめき感を振り返ります。成功の有無だけで一般的な問題解決能力を判断することはできません。</p></div><div class="results-actions"><button type="button" id="download-csv" class="button primary">CSVを保存</button><button type="button" id="retry-same" class="button secondary">同じ設定でもう一度</button><button type="button" id="change-settings" class="button quiet">設定を変更</button></div></div><div id="summary-cards" class="nine-summary"></div><div class="results-grid"><div class="result-card"><h3>試行履歴</h3><div id="attempt-history"></div></div><figure class="result-card"><h3>解答例</h3><canvas id="solution-canvas" width="640" height="500">9点問題の解答例</canvas><figcaption class="result-note">点が作る正方形の外側まで線を延長する経路の一例です。</figcaption></figure></div><details class="data-dictionary"><summary>CSVの主な列</summary><dl><div><dt>attempt_index / path_json</dt><dd>試行番号と、クリックした始点・終点の座標列。</dd></div><div><dt>segment_count / covered_dots</dt><dd>線分数と通過した点の数。</dd></div><div><dt>success / timed_out</dt><dd>成功および時間切れ（1/0）。</dd></div><div><dt>insight_rating</dt><dd>主観的なひらめき感（0〜4）。</dd></div></dl></details></section>
     </main>
     <footer class="site-footer"><div class="site-footer__inner"><p><strong>心理学実験演習サイト</strong><br><span>教育用デモ — 個人情報や実験データは送信されません。</span></p><nav class="footer-nav" aria-label="フッターナビゲーション"><a href="#overview">概要</a><a href="#setup">設定</a><a href="../../">実験一覧</a></nav></div></footer>
-    <script src="https://unpkg.com/jspsych@8.3.0"></script><script src="https://unpkg.com/@jspsych/plugin-browser-check@2.1.0"></script><script type="module" src="experiment.js?v=1.1.0"></script><script type="module" src="../../assets/lesson-runtime.mjs?v=1.0.0"></script>
+    <script src="https://unpkg.com/jspsych@8.3.0"></script><script src="https://unpkg.com/@jspsych/plugin-browser-check@2.1.0"></script><script type="module" src="experiment.js?v=1.1.0"></script><script type="module" src="../../assets/lesson-runtime.mjs?v=20260909"></script>
   </body>
 </html>

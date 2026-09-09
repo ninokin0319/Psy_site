@@ -1,0 +1,119 @@
+/* 授業用の画面構成。刺激・回答画面の寸法は実験固有CSSで管理する。 */
+:root {
+  --content-wide: 80rem;
+  --font-h1: clamp(2rem, 3.6vw, 3.25rem);
+  --font-h2: clamp(1.5rem, 2.6vw, 2rem);
+  --font-h3: clamp(1.15rem, 1.8vw, 1.4rem);
+  --radius-md: 12px;
+}
+[hidden] { display: none !important; }
+html { scroll-padding-top: 1.5rem; }
+select, textarea { font: inherit; }
+:where(a, button, input, select, textarea, summary):focus-visible { outline: var(--focus-ring); outline-offset: 4px; }
+.skip-link { position: absolute; top: .5rem; left: 1rem; z-index: 100; padding: .75rem 1rem; background: var(--ink); color: white; transform: translateY(-200%); }
+.skip-link:focus { transform: translateY(0); }
+.site-header { background: var(--surface); }
+.site-header__inner { min-height: 76px; }
+.site-nav { gap: .25rem 1rem; }
+.site-nav a { display: inline-flex; align-items: center; min-height: 44px; padding: .25rem .35rem; font-size: .875rem; }
+.brand { font-weight: 750; }
+.brand-mark { border-radius: 10px; }
+.hero { max-width: var(--content-wide); padding-block: 2.5rem 2rem; display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(15rem, 1fr); gap: 2.5rem; align-items: center; }
+.hero-copy { max-width: none; }
+.hero h1 { margin-bottom: .8rem; letter-spacing: -.015em; }
+.hero .lead { margin-block: 0 1.25rem; max-width: 42rem; }
+.hero-actions { gap: 1rem; }
+.teaching-entry { border-left: 3px solid var(--lime); padding: .5rem 0 .5rem 1.5rem; }
+.teaching-entry h2 { font-size: 1.1rem; margin-bottom: .6rem; }
+.teaching-entry p { margin: 0 0 .7rem; font-size: .9rem; color: var(--muted); }
+.teaching-entry a { color: var(--green); font-weight: 750; text-underline-offset: 4px; }
+#experiments { padding-top: 1.5rem; }
+.section { padding-block: 2.5rem; }
+.section-heading { margin-bottom: 1.25rem; }
+.section-heading h2 { margin: 0; }
+.section-heading .eyebrow { margin-bottom: .3rem; }
+.catalog-tools { display: grid; grid-template-columns: minmax(0, 1fr) minmax(15rem, 22rem); gap: 1rem; align-items: end; margin-bottom: 1.25rem; }
+.catalog-filters { display: flex; flex-wrap: wrap; gap: .5rem; }
+.catalog-filters button { min-height: 44px; padding: .5rem .9rem; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); cursor: pointer; }
+.catalog-filters button[aria-pressed="true"] { background: var(--green); color: white; border-color: var(--green); }
+.catalog-search { display: grid; gap: .35rem; font-size: .875rem; font-weight: 700; }
+.catalog-search input { width: 100%; min-height: 46px; padding: .6rem .8rem; border: 1px solid #87988b; border-radius: 6px; background: var(--surface); }
+.catalog-status { color: var(--muted); font-size: .875rem; margin: 0 0 1rem; }
+.catalog-empty { padding: 2rem; border: 1px dashed var(--line); }
+.experiment-grid { gap: 1rem; }
+.experiment-card { min-height: 305px; padding: 1.4rem; border-radius: 10px; box-shadow: 0 2px 3px #17221d04; }
+.experiment-card.featured { border-top: 1px solid var(--line); }
+.experiment-card h3 { margin: .85rem 0 .6rem; }
+.experiment-card > p:not(.domain-label) { margin: 0 0 1.2rem; font-size: .94rem; line-height: 1.8; }
+.experiment-card .domain-label { order: -1; border: 0; padding: 0; margin-bottom: .65rem; color: var(--green); font-size: .8rem; }
+.status.available { background: #e8eee3; color: var(--green-dark); padding: .1rem .5rem; }
+.duration { font-size: .8rem; }
+.tags { margin-bottom: 1rem; }
+.tags li { background: transparent; border: 1px solid var(--line); border-radius: 4px; }
+.card-link { min-height: 44px; font-size: .9rem; }
+.button { border-radius: 6px; }
+.button.primary { box-shadow: none; }
+.split-section { gap: 2rem; }
+.development-notice { border-top-width: 1px; border-left: 3px solid var(--danger); border-radius: 6px; padding: 1.25rem 1.5rem; margin-bottom: 2.5rem; }
+.development-notice h2 { font-size: 1rem; }
+.development-notice p { font-size: .875rem; }
+.site-footer__inner { padding-block: 1.5rem; }
+.lesson-hero, .experiment-hero { padding-block: 2.5rem 2rem; gap: 2rem; }
+.lesson-hero h1, .experiment-hero h1 { font-size: clamp(2rem, 3.6vw, 3.25rem); line-height: 1.35; }
+.lesson-meta, .experiment-meta { border-radius: 8px; }
+.lesson-meta dd, .experiment-meta dd { font-size: .95rem; }
+.debrief-gate { margin-block: 0 1rem; padding: 1rem 1.25rem; border-radius: 8px; gap: 1rem; border-left-width: 3px; }
+.debrief-gate h2 { font-size: 1rem; margin-bottom: .25rem; }
+.debrief-gate p { font-size: .875rem; }
+.debrief-gate .eyebrow { display: none; }
+.debrief-gate button { flex-shrink: 0; }
+.explanation-panel, .references-panel { border-radius: 8px; }
+.references-panel { margin-bottom: 1.5rem; }
+.setup-section { padding-block: 2.5rem; background: #eaf0e5; border-block: 1px solid var(--line); }
+.setup-heading { align-items: start; }
+.setup-heading h2 { font-size: 1.6rem; }
+.config-panel, .preview-panel { padding: 1.5rem; border-radius: 10px; box-shadow: none; }
+.config-panel .preset-group { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+.preset-group span { border-radius: 6px; }
+.preset-group input:checked + span { background: #edf3df; }
+.field-grid > label { font-size: .9rem; }
+.field-grid :where(input, select) { min-height: 46px; border-radius: 5px; }
+.config-actions { flex-wrap: wrap; align-items: center; }
+.config-actions > .primary { order: 0; flex: 1 1 12rem; }
+.config-actions > .secondary { order: 1; }
+.config-actions > .share-settings { order: 2; flex-basis: 100%; border-top: 1px solid var(--line); padding-top: .75rem; margin-top: .5rem; }
+.share-settings { max-width: 100%; }
+.share-settings input { width: 100%; min-width: 0; padding: .6rem; }
+.preview-panel { position: static; }
+.learning-grid article p { line-height: 1.9; }
+.bias-grid { gap: 1rem; }
+.bias-card { border-radius: 10px; box-shadow: none; }
+.bias-card a { min-height: 44px; display: flex; align-items: center; }
+body:has(.experiment-runner:not([hidden])) .debrief-gate { display: none; }
+body:has(.experiment-runner:not([hidden])) .site-nav { visibility: hidden; }
+@media (hover: hover) {
+  .experiment-card.featured:hover { transform: none; box-shadow: 0 5px 20px #17221d0a; }
+  .catalog-filters button:hover { border-color: var(--green); }
+}
+@media (min-width: 621px) and (max-width: 1000px) { .experiment-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 760px) {
+  .hero, .catalog-tools { grid-template-columns: 1fr; gap: 1.25rem; }
+  .teaching-entry { padding-left: 1rem; }
+  .teaching-entry p { margin-bottom: .25rem; }
+  .hero { padding-top: 1.75rem; }
+  .hero h1 { font-size: 2rem; }
+  .catalog-search { order: -1; }
+}
+@media (max-width: 620px) {
+  .site-header__inner { gap: .35rem; }
+  .brand { font-size: .95rem; }
+  .site-nav { gap: .1rem .65rem; }
+  .site-nav a { font-size: .8rem; }
+  .hero-actions { flex-direction: row; }
+  .experiment-grid { grid-template-columns: 1fr; }
+  .experiment-card { min-height: 0; }
+  .config-panel, .preview-panel { padding: 1rem; }
+  .config-actions > button { width: 100%; }
+  .debrief-gate { flex-direction: column; align-items: stretch; }
+  .lesson-hero, .experiment-hero { padding-top: 1.5rem; }
+}

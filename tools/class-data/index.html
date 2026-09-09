@@ -7,13 +7,14 @@
     <title>授業データ集計 | 心理学実験演習サイト</title>
     <link rel="stylesheet" href="../../assets/site.css">
     <link rel="stylesheet" href="../../assets/lesson.css">
-  </head>
-  <body class="lesson-page">
+  <link rel="stylesheet" href="../../assets/usability.css?v=20260909">
+</head>
+  <body class="lesson-page"><a class="skip-link" href="#main-content">本文へ移動</a>
     <header class="site-header compact"><div class="site-header__inner">
       <a class="brand" href="../../"><span class="brand-mark" aria-hidden="true">Ψ</span><span>心理学実験演習サイト</span></a>
       <nav class="site-nav lesson-nav" aria-label="ページナビゲーション"><a href="#import">CSVを選ぶ</a><a href="#notes">利用上の注意</a><a href="../../">← 実験一覧</a></nav>
     </div></header>
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="lesson-hero" id="overview"><div><p class="eyebrow">INSTRUCTOR TOOL</p><h1>授業データ集計</h1><p class="lead">学生が保存した同じ実験のCSVを読み込み、実験ID・版・列構成を点検してから1つに結合します。ファイルの内容はサーバーへ送信されません。</p><div class="lesson-hero-actions"><a class="button primary" href="#import">CSVを選ぶ</a></div></div><dl class="lesson-meta"><div><dt>処理場所</dt><dd>このブラウザ内のみ</dd></div><div><dt>入力</dt><dd>同一実験のCSV</dd></div><div><dt>出力</dt><dd>結合CSV</dd></div></dl></section>
       <section class="setup-section" id="import"><div class="setup-heading"><div><p class="eyebrow">IMPORT</p><h2>CSVを点検して結合する</h2></div><p>氏名や学籍番号を追加したファイルは読み込まないでください。</p></div><div class="setup-layout">
         <div class="config-panel"><label id="drop-zone" class="file-drop">CSVファイルを選択またはドロップ<input id="csv-files" type="file" accept=".csv,text/csv" multiple></label><div id="import-summary" class="result-highlight" aria-live="polite"></div><button id="download-merged" class="button primary" type="button" disabled>結合CSVを保存</button></div>

@@ -6,10 +6,11 @@
     <meta property="og:title" content="系列位置効果実験 | 心理学実験演習サイト"><meta property="og:description" content="初頭効果と新近性効果を体験する授業用ブラウザ実験です。"><meta property="og:type" content="website">
     <title>系列位置効果実験 | 心理学実験演習サイト</title>
     <link rel="stylesheet" href="https://unpkg.com/jspsych@8.3.0/css/jspsych.css"><link rel="stylesheet" href="../../assets/site.css"><link rel="stylesheet" href="../../assets/lesson.css"><link rel="stylesheet" href="experiment.css">
-  </head>
-  <body class="lesson-page">
+  <link rel="stylesheet" href="../../assets/usability.css?v=20260909">
+</head>
+  <body class="lesson-page"><a class="skip-link" href="#main-content">本文へ移動</a>
     <header class="site-header compact"><div class="site-header__inner"><a class="brand" href="../../"><span class="brand-mark" aria-hidden="true">Ψ</span><span>心理学実験演習サイト</span></a><nav class="site-nav lesson-nav" aria-label="実験ページナビゲーション"><a href="#overview">概要</a><a href="#theory">詳しい解説</a><a href="#setup">設定</a><a href="../../">← 実験一覧</a></nav></div></header>
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="lesson-hero" id="overview"><div><p class="eyebrow">EXPERIMENT</p><h1>系列位置効果実験</h1><p class="lead">カタカナ2文字のつづりを順番に覚え、提示後に思い出せるものを自由な順序で入力します。リスト内の位置によって再生率がどう変わるかを調べます。</p><div class="lesson-hero-actions"><a class="button primary" href="#setup">設定へ進む</a><a class="text-link" href="#theory">背景と方法を読む ↓</a></div></div><dl class="lesson-meta"><div><dt>測定法</dt><dd>直後自由再生</dd></div><div><dt>測定指標</dt><dd>系列位置別再生率</dd></div><div><dt>推奨環境</dt><dd>キーボード付きPC</dd></div></dl></section>
 
       <details class="explanation-panel" id="theory"><summary><span><strong>背景・仮説・実験計画を読む</strong><small>初頭効果、新近性効果、自由再生の採点方法を確認できます。</small></span></summary><div class="explanation-content"><section class="learning-grid" aria-label="背景と方法">
@@ -29,6 +30,6 @@
       <section id="results" class="results-section" hidden aria-labelledby="results-title"><div class="results-heading"><div><p class="eyebrow">RESULTS</p><h2 id="results-title">実験結果</h2><p>系列位置ごとの再生率を比較します。リスト数が少ない場合は記述値として解釈してください。</p></div><div class="results-actions"><button type="button" id="download-csv" class="button primary">CSVを保存</button><button type="button" id="retry-same" class="button secondary">同じ設定でもう一度</button><button type="button" id="change-settings" class="button quiet">設定を変更</button></div></div><div class="results-grid"><figure class="result-card"><h3>系列位置曲線</h3><canvas id="serial-chart" width="600" height="380">系列位置ごとの再生率を示す折れ線図</canvas><figcaption class="result-note">縦軸は再生率、横軸はリスト内の系列位置です。</figcaption></figure><div class="result-card"><h3>位置区分別の再生率</h3><div id="zone-summary" class="zone-grid"></div><p class="result-note">項目数を3分割した記述的区分です。理論上の過程と1対1に対応する区分ではありません。</p></div></div><details class="data-dictionary"><summary>CSVの主な列</summary><dl><div><dt>list_index / serial_position</dt><dd>リスト番号とリスト内の提示位置。</dd></div><div><dt>item / recalled</dt><dd>提示したつづりと正しく再生されたか（1/0）。</dd></div><div><dt>recall_order</dt><dd>再生された場合の入力順。</dd></div><div><dt>response_count / recall_rt</dt><dd>入力した異なるつづり数と再生画面の反応時間。</dd></div></dl></details></section>
     </main>
     <footer class="site-footer"><div class="site-footer__inner"><p><strong>心理学実験演習サイト</strong><br><span>教育用デモ — 個人情報や実験データは送信されません。</span></p><nav class="footer-nav" aria-label="フッターナビゲーション"><a href="#overview">概要</a><a href="#setup">設定</a><a href="../../">実験一覧</a></nav></div></footer>
-    <script src="https://unpkg.com/jspsych@8.3.0"></script><script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.2.0"></script><script src="https://unpkg.com/@jspsych/plugin-browser-check@2.1.0"></script><script type="module" src="experiment.js?v=1.1.0"></script><script type="module" src="../../assets/lesson-runtime.mjs?v=1.0.0"></script>
+    <script src="https://unpkg.com/jspsych@8.3.0"></script><script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.2.0"></script><script src="https://unpkg.com/@jspsych/plugin-browser-check@2.1.0"></script><script type="module" src="experiment.js?v=1.1.0"></script><script type="module" src="../../assets/lesson-runtime.mjs?v=20260909"></script>
   </body>
 </html>

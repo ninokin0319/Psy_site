@@ -9,8 +9,9 @@
     <meta property="og:type" content="website">
     <title>心理学実験演習サイト</title>
     <link rel="stylesheet" href="assets/site.css">
-  </head>
-  <body>
+  <link rel="stylesheet" href="assets/usability.css?v=20260909">
+</head>
+  <body><a class="skip-link" href="#main-content">本文へ移動</a>
     <header class="site-header">
       <div class="site-header__inner">
         <a class="brand" href="./" aria-label="心理学実験演習サイト トップ">
@@ -25,7 +26,7 @@
       </div>
     </header>
 
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
           <p class="eyebrow">LEARN BY EXPERIMENTING</p>
@@ -33,9 +34,15 @@
           <p class="lead">心理学の古典的な現象をブラウザで体験し、パラメータを調整しながら実験の仕組みを学べる授業用サイトです。</p>
           <div class="hero-actions">
             <a class="button primary" href="#experiments">実験一覧を見る</a>
-            <a class="text-link" href="tools/class-data/">授業のCSVをまとめる</a>
+
           </div>
         </div>
+        <aside class="teaching-entry" aria-label="教員の方へ">
+          <p class="eyebrow">授業の準備・振り返り</p>
+          <h2>教員の方へ</h2>
+          <p>各実験で条件を設定し、設定付きURLを学生に共有できます。実施後のCSVは端末内で結合できます。</p>
+          <a href="tools/class-data/">授業データ集計を開く →</a>
+        </aside>
       </section>
 
       <section class="section" id="experiments" aria-labelledby="experiments-title">
@@ -205,5 +212,6 @@
         </nav>
       </div>
     </footer>
+<script type="module" src="assets/catalog.mjs?v=20260909"></script>
   </body>
 </html>

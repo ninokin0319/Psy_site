@@ -10,10 +10,11 @@
     <title>視覚探索課題 | 心理学実験演習サイト</title>
     <link rel="stylesheet" href="https://unpkg.com/jspsych@8.3.0/css/jspsych.css">
     <link rel="stylesheet" href="../../assets/site.css"><link rel="stylesheet" href="../../assets/lesson.css"><link rel="stylesheet" href="experiment.css">
-  </head>
-  <body class="lesson-page">
+  <link rel="stylesheet" href="../../assets/usability.css?v=20260909">
+</head>
+  <body class="lesson-page"><a class="skip-link" href="#main-content">本文へ移動</a>
     <header class="site-header compact"><div class="site-header__inner"><a class="brand" href="../../"><span class="brand-mark" aria-hidden="true">Ψ</span><span>心理学実験演習サイト</span></a><nav class="site-nav lesson-nav" aria-label="実験ページナビゲーション"><a href="#overview">概要</a><a href="#theory">詳しい解説</a><a href="#setup">設定</a><a href="../../">← 実験一覧</a></nav></div></header>
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="lesson-hero" id="overview"><div><p class="eyebrow">EXPERIMENT</p><h1>視覚探索課題</h1><p class="lead">多数の斜線から「赤い右下がり線」を探し、あれば右矢印、なければ左矢印で答えます。特徴探索と結合探索で、項目数の影響がどう変わるかを調べます。</p><div class="lesson-hero-actions"><a class="button primary" href="#setup">設定へ進む</a><a class="text-link" href="#theory">背景と方法を読む ↓</a></div></div><dl class="lesson-meta"><div><dt>実験計画</dt><dd>3要因参加者内</dd></div><div><dt>測定指標</dt><dd>正答率・探索時間</dd></div><div><dt>推奨環境</dt><dd>矢印キー付きPC</dd></div></dl></section>
 
       <details class="explanation-panel" id="theory"><summary><span><strong>背景・仮説・実験計画を読む</strong><small>特徴探索、結合探索、探索効率の考え方を確認できます。</small></span></summary><div class="explanation-content">
@@ -42,6 +43,6 @@
       <section id="results" class="results-section" hidden aria-labelledby="results-title"><div class="results-heading"><div><p class="eyebrow">RESULTS</p><h2 id="results-title">実験結果</h2><p>探索タイプとターゲット有無ごとに、セットサイズに対する反応時間の傾きを比較します。</p></div><div class="results-actions"><button type="button" id="download-csv" class="button primary">CSVを保存</button><button type="button" id="retry-same" class="button secondary">同じ設定でもう一度</button><button type="button" id="change-settings" class="button quiet">設定を変更</button></div></div><div class="results-grid"><div class="result-card"><h3>探索時間の傾き</h3><div class="table-scroll"><table class="slope-table"><thead><tr><th>探索タイプ</th><th>ターゲット</th><th>傾き</th><th>全体正答率</th></tr></thead><tbody id="slope-body"></tbody></table></div><p class="result-note">傾きは、セットサイズが1項目増えたときの平均正答反応時間の変化量です。</p></div><figure class="result-card"><h3>セットサイズ別の平均正答RT</h3><canvas id="search-chart" width="600" height="380">セットサイズと平均正答反応時間の折れ線図</canvas><figcaption class="result-note">線種は探索タイプとターゲット有無の組合せを示します。</figcaption></figure></div><details class="data-dictionary"><summary>CSVの主な列</summary><dl><div><dt>search_type</dt><dd>featureまたはconjunction。</dd></div><div><dt>set_size / target_present</dt><dd>項目数とターゲット有無。</dd></div><div><dt>correct_response / response_key</dt><dd>正答と実際の左右矢印キー。</dd></div><div><dt>correctness / rt</dt><dd>正誤（1/0）と探索時間（ms）。</dd></div></dl></details></section>
     </main>
     <footer class="site-footer"><div class="site-footer__inner"><p><strong>心理学実験演習サイト</strong><br><span>教育用デモ — 個人情報や実験データは送信されません。</span></p><nav class="footer-nav" aria-label="フッターナビゲーション"><a href="#overview">概要</a><a href="#setup">設定</a><a href="../../">実験一覧</a></nav></div></footer>
-    <script src="https://unpkg.com/jspsych@8.3.0"></script><script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.2.0"></script><script src="https://unpkg.com/@jspsych/plugin-browser-check@2.1.0"></script><script type="module" src="experiment.js?v=1.1.0"></script><script type="module" src="../../assets/lesson-runtime.mjs?v=1.0.0"></script>
+    <script src="https://unpkg.com/jspsych@8.3.0"></script><script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.2.0"></script><script src="https://unpkg.com/@jspsych/plugin-browser-check@2.1.0"></script><script type="module" src="experiment.js?v=1.1.0"></script><script type="module" src="../../assets/lesson-runtime.mjs?v=20260909"></script>
   </body>
 </html>

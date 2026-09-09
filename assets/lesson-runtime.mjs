@@ -92,7 +92,17 @@ function wireShareSettings() {
       await copyText(settingsUrl(form));
       status.textContent = "設定URLをコピーしました。";
     } catch {
-      status.textContent = "コピーできませんでした。ブラウザのアドレス欄からURLをコピーしてください。";
+      status.textContent = "次の欄のURLを選択してコピーしてください。";
+      let fallback = wrap.querySelector('input');
+      if (!fallback) {
+        fallback = document.createElement('input');
+        fallback.readOnly = true;
+        fallback.setAttribute('aria-label', '共有する設定URL');
+        wrap.append(fallback);
+      }
+      fallback.value = settingsUrl(form);
+      fallback.focus();
+      fallback.select();
     }
   });
 }
@@ -124,7 +134,7 @@ function wireDebriefGuard() {
   for (const link of document.querySelectorAll('a[href="#theory"]')) {
     if (!showBefore) {
       link.href = "#theory-gate";
-      link.textContent = "解説を先に読む（結果に影響する場合があります） ↓";
+      link.textContent = link.closest('nav') ? '解説' : '解説について';
     }
   }
 
